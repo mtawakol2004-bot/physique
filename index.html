@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variation & Dérivée — 1ère</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #0f0f14;
+    --paper: #faf8f3;
+    --cream: #f2eeE4;
+    --accent: #e85d26;
+    --accent2: #2563e8;
+    --gold: #c9a84c;
+    --green: #1a7a4a;
+    --muted: #7a7670;
+    --border: #d8d3c8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: 'f(x)';
+    position: absolute; right: -20px; top: -20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 14rem; font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    pointer-events: none; user-select: none;
+  }
+  .chapter-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.18em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: #fff; line-height: 1.1;
+    max-width: 700px;
+  }
+  header h1 span { color: var(--accent); }
+  .subtitle {
+    margin-top: 0.7rem;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.95rem; font-weight: 300;
+  }
+
+  /* NAV PILLS */
+  nav {
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; gap: 0;
+    overflow-x: auto;
+  }
+  nav button {
+    background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem; font-weight: 500;
+    color: var(--muted);
+    padding: 1rem 1.4rem;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  nav button.active { color: var(--ink); border-bottom-color: var(--accent); }
+  nav button:hover:not(.active) { color: var(--ink); }
+
+  /* SECTIONS */
+  .section { display: none; animation: fadeIn 0.35s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+  /* CONCEPT CARD */
+  .concept-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  .concept-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; border-radius: 4px 0 0 4px;
+  }
+  .concept-card.orange::before { background: var(--accent); }
+  .concept-card.blue::before { background: var(--accent2); }
+  .concept-card.green::before { background: var(--green); }
+
+  .concept-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; margin-bottom: 0.5rem;
+  }
+  .concept-card .formula {
+    font-family: 'DM Mono', monospace;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  .concept-card p { color: #444; line-height: 1.7; font-size: 0.95rem; }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border-radius: 2px; margin-bottom: 0.8rem;
+  }
+  .badge-orange { background: #fde8dc; color: var(--accent); }
+  .badge-blue { background: #dce8fd; color: var(--accent2); }
+  .badge-green { background: #dcfde8; color: var(--green); }
+
+  /* CANVAS ZONE */
+  .canvas-wrapper {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  canvas { display: block; width: 100%; border-radius: 2px; }
+
+  /* CONTROLS */
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 1.2rem;
+    align-items: center; margin-top: 1.2rem;
+  }
+  .ctrl-group { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 160px; }
+  .ctrl-group label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .ctrl-group input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    height: 4px; border-radius: 2px;
+    background: var(--border); outline: none;
+    cursor: pointer;
+  }
+  .ctrl-group input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--ink); cursor: pointer;
+    border: 2px solid #fff; box-shadow: 0 0 0 1px var(--ink);
+  }
+  .val-display {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.9rem; font-weight: 500; color: var(--ink);
+  }
+
+  /* INFO BOXES */
+  .info-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.2rem;
+  }
+  .info-box {
+    background: var(--cream);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 1rem 1.2rem;
+  }
+  .info-box .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .info-box .value {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.2rem; font-weight: 500;
+  }
+  .info-box .value.orange { color: var(--accent); }
+  .info-box .value.blue { color: var(--accent2); }
+  .info-box .value.green { color: var(--green); }
+
+  /* KEY INSIGHT BOX */
+  .insight {
+    background: var(--ink); color: #fff;
+    border-radius: 4px; padding: 1.5rem 1.8rem;
+    margin: 2rem 0;
+  }
+  .insight h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; margin-bottom: 0.5rem;
+    color: var(--gold);
+  }
+  .insight p { font-size: 0.92rem; line-height: 1.7; color: rgba(255,255,255,0.8); }
+  .insight .big {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem; margin: 0.8rem 0; color: #fff;
+    padding: 0.6rem 1rem; background: rgba(255,255,255,0.08);
+    border-radius: 3px; display: inline-block;
+  }
+
+  /* QUIZ */
+  .quiz-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 4px; padding: 2rem; margin-bottom: 1.5rem;
+  }
+  .quiz-card .question {
+    font-weight: 500; font-size: 1rem; margin-bottom: 1.2rem; line-height: 1.6;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .quiz-option {
+    background: var(--cream); border: 1.5px solid var(--border);
+    border-radius: 4px; padding: 0.75rem 1.1rem;
+    cursor: pointer; font-size: 0.92rem;
+    transition: all 0.18s; text-align: left;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-option:hover { border-color: var(--ink); background: #fff; }
+  .quiz-option.correct { border-color: var(--green); background: #dcfde8; color: var(--green); }
+  .quiz-option.wrong { border-color: var(--accent); background: #fde8dc; color: var(--accent); }
+  .quiz-feedback {
+    margin-top: 0.8rem; font-size: 0.88rem;
+    padding: 0.6rem 1rem; border-radius: 3px;
+    display: none; line-height: 1.5;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #dcfde8; color: var(--green); }
+  .quiz-feedback.ko { background: #fde8dc; color: #b84010; }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; margin-bottom: 0.3rem;
+  }
+  .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+
+  /* STEP LIST */
+  .steps { counter-reset: step; list-style: none; }
+  .steps li {
+    counter-increment: step;
+    padding: 0.8rem 0 0.8rem 3rem;
+    position: relative; border-bottom: 1px solid var(--border);
+    font-size: 0.93rem; line-height: 1.6; color: #333;
+  }
+  .steps li:last-child { border: none; }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0.8rem;
+    width: 1.8rem; height: 1.8rem;
+    background: var(--ink); color: #fff;
+    border-radius: 50%;
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+
+  /* TABLE */
+  .math-table {
+    width: 100%; border-collapse: collapse; margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  .math-table th {
+    background: var(--ink); color: #fff;
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.08em; padding: 0.7rem 1rem; text-align: left;
+  }
+  .math-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+  .math-table tr:nth-child(even) td { background: var(--cream); }
+
+  /* LIMIT ANIMATION */
+  #limit-demo { text-align: center; padding: 2rem; }
+  .h-sequence {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    justify-content: center; margin: 1rem 0;
+  }
+  .h-chip {
+    font-family: 'DM Mono', monospace; font-size: 0.8rem;
+    padding: 0.3rem 0.7rem; border-radius: 2px;
+    background: var(--cream); border: 1px solid var(--border);
+    transition: all 0.3s;
+  }
+  .h-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); transform: scale(1.1); }
+  .h-chip.done { background: var(--ink); color: #fff; border-color: var(--ink); opacity: 0.5; }
+
+  #animate-btn {
+    background: var(--ink); color: #fff; border: none;
+    padding: 0.7rem 1.8rem; border-radius: 3px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.9rem; transition: background 0.2s;
+  }
+  #animate-btn:hover { background: var(--accent); }
+
+  @media (max-width: 600px) {
+    .info-row { grid-template-columns: 1fr; }
+    .container { padding: 1.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="chapter-tag">Mathématiques · Première · Analyse</div>
+  <h1>Variation globale<br>& <span>Variation instantanée</span></h1>
+  <p class="subtitle">De la sécante à la tangente — comprendre la dérivée</p>
+</header>
+
+<nav>
+  <button class="active" onclick="goTo(0)">① Variation globale</button>
+  <button onclick="goTo(1)">② Variation instantanée</button>
+  <button onclick="goTo(2)">③ Passage à la limite</button>
+  <button onclick="goTo(3)">④ Comparatif interactif</button>
+</nav>
+
+<!-- ===================== SECTION 0 : VARIATION GLOBALE ===================== -->
+<div class="section active" id="s0">
+<div class="container">
+  <div class="section-title">Variation globale</div>
+  <p class="section-sub">Combien la fonction a-t-elle changé entre deux points ?</p>
+
+  <div class="concept-card orange">
+    <span class="badge badge-orange">Définition</span>
+    <h2>Taux de variation global</h2>
+    <div class="formula">
+      τ(a, b) = <strong>[ f(b) − f(a) ] / (b − a)</strong><br><br>
+      = Δf / Δx &nbsp;=&nbsp; « pente de la sécante »
+    </div>
+    <p>C'est le <strong>taux de variation moyen</strong> sur l'intervalle [a, b]. Géométriquement, c'est la pente de la droite qui relie les deux points (a, f(a)) et (b, f(b)) — la <em>sécante</em>.</p>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="c0" height="320"></canvas>
+    <div class="controls">
+      <div class="ctrl-group">
+        <label>Point a</label>
+        <input type="range" id="r0a" min="-2.5" max="2" step="0.05" value="-1">
+        <span class="val-display" id="v0a">a = −1.00</span>
+      </div>
+      <div class="ctrl-group">
+        <label>Point b</label>
+        <input type="range" id="r0b" min="-2" max="3" step="0.05" value="2">
+        <span class="val-display" id="v0b">b = 2.00</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-box">
+        <div class="label">Δf = f(b) − f(a)</div>
+        <div class="value orange" id="i0df">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Taux de variation τ(a,b)</div>
+        <div class="value orange" id="i0tv">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>💡 Interprétation concrète</h3>
+    <p>Si f(t) représente la distance parcourue (en km) au temps t (en h), alors :</p>
+    <div class="big">τ(a, b) = vitesse moyenne entre t=a et t=b (km/h)</div>
+    <p>La variation globale répond à : <em>« En moyenne, à quelle vitesse évolue f ? »</em></p>
+  </div>
+
+  <div class="concept-card orange">
+    <span class="badge badge-orange">Exemple numérique</span>
+    <h2>f(x) = x²</h2>
+    <table class="math-table">
+      <thead><tr><th>a</th><th>b</th><th>f(a)</th><th>f(b)</th><th>τ(a,b)</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>3</td><td>1</td><td>9</td><td>(9−1)/(3−1) = <strong>4</strong></td></tr>
+        <tr><td>2</td><td>4</td><td>4</td><td>16</td><td>(16−4)/(4−2) = <strong>6</strong></td></tr>
+        <tr><td>0</td><td>h</td><td>0</td><td>h²</td><td>h²/h = <strong>h</strong></td></tr>
+      </tbody>
+    </table>
+    <p>La dernière ligne est clé : elle prépare le passage à la limite…</p>
+  </div>
+</div>
+</div>
+
+<!-- ===================== SECTION 1 : VARIATION INSTANTANÉE ===================== -->
+<div class="section" id="s1">
+<div class="container">
+  <div class="section-title">Variation instantanée</div>
+  <p class="section-sub">Que se passe-t-il quand Δx → 0 ?</p>
+
+  <div class="concept-card blue">
+    <span class="badge badge-blue">Définition</span>
+    <h2>Nombre dérivé en a</h2>
+    <div class="formula">
+      f'(a) = lim<sub>h→0</sub> <strong>[ f(a+h) − f(a) ] / h</strong><br><br>
+      = pente de la <strong>tangente</strong> en x = a
+    </div>
+    <p>Quand on fait tendre b vers a (ou h vers 0), la sécante pivote et devient la <strong>tangente</strong> à la courbe en a. Sa pente est la <em>dérivée</em> en a.</p>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="c1" height="320"></canvas>
+    <div class="controls">
+      <div class="ctrl-group">
+        <label>Point a (fixe)</label>
+        <input type="range" id="r1a" min="-2" max="2.5" step="0.05" value="1">
+        <span class="val-display" id="v1a">a = 1.00</span>
+      </div>
+      <div class="ctrl-group">
+        <label>h (→ 0)</label>
+        <input type="range" id="r1h" min="0.05" max="2.5" step="0.05" value="2">
+        <span class="val-display" id="v1h">h = 2.00</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-box">
+        <div class="label">Taux global τ(a, a+h)</div>
+        <div class="value orange" id="i1tv">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Dérivée f '(a) = 2a</div>
+        <div class="value blue" id="i1deriv">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>💡 La dérivée = vitesse instantanée</h3>
+    <p>Si f(t) = distance, alors f'(t) c'est ce qu'affiche le <strong>compteur de vitesse</strong> à l'instant t — pas une moyenne, mais la vitesse <em>à cet instant précis</em>.</p>
+    <div class="big">variation instantanée ↔ dérivée ↔ pente tangente</div>
+  </div>
+
+  <div class="concept-card blue">
+    <span class="badge badge-blue">Calcul</span>
+    <h2>f(x) = x² → f'(a) = 2a</h2>
+    <ul class="steps">
+      <li>Écrire le taux de variation : [f(a+h) − f(a)] / h</li>
+      <li>Développer f(a+h) = (a+h)² = a² + 2ah + h²</li>
+      <li>Calculer la différence : a² + 2ah + h² − a² = 2ah + h²</li>
+      <li>Diviser par h : (2ah + h²)/h = 2a + h</li>
+      <li>Faire tendre h → 0 : <strong>f'(a) = 2a</strong> ✓</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ===================== SECTION 2 : PASSAGE LIMITE ===================== -->
+<div class="section" id="s2">
+<div class="container">
+  <div class="section-title">Passage à la limite</div>
+  <p class="section-sub">Voir la sécante devenir tangente, étape par étape</p>
+
+  <div class="concept-card green">
+    <span class="badge badge-green">Animation</span>
+    <h2>La sécante qui pivote</h2>
+    <p>On fixe a = 1, et on fait diminuer h : <strong>1 → 0.5 → 0.2 → 0.1 → 0.01</strong>. Observe comment la droite sécante (orange) converge vers la tangente (bleu).</p>
+  </div>
+
+  <div class="canvas-wrapper">
+    <canvas id="c2" height="340"></canvas>
+    <div id="limit-demo">
+      <div class="h-sequence" id="hseq"></div>
+      <button id="animate-btn" onclick="startLimitAnim()">▶ Lancer l'animation</button>
+    </div>
+    <div class="info-row">
+      <div class="info-box">
+        <div class="label">h actuel</div>
+        <div class="value green" id="i2h">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">Taux de variation → f'(1) = 2</div>
+        <div class="value green" id="i2tv">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="concept-card green">
+    <span class="badge badge-green">Tableau de convergence</span>
+    <h2>f(x) = x², a = 1</h2>
+    <table class="math-table">
+      <thead><tr><th>h</th><th>f(1+h)</th><th>τ = [f(1+h)−f(1)]/h</th><th>Écart avec f'(1)=2</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>4</td><td>(4−1)/1 = 3</td><td>+1</td></tr>
+        <tr><td>0.5</td><td>2.25</td><td>(2.25−1)/0.5 = 2.5</td><td>+0.5</td></tr>
+        <tr><td>0.1</td><td>1.21</td><td>(1.21−1)/0.1 = 2.1</td><td>+0.1</td></tr>
+        <tr><td>0.01</td><td>1.0201</td><td>(1.0201−1)/0.01 = 2.01</td><td>+0.01</td></tr>
+        <tr><td>0.001</td><td>1.002001</td><td>≈ 2.001</td><td>+0.001</td></tr>
+        <tr><td style="color:var(--green)"><strong>→ 0</strong></td><td>→ 1</td><td><strong>→ 2</strong></td><td><strong>→ 0</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.8rem">À chaque fois que h est divisé par 10, l'écart est aussi divisé par 10 → convergence parfaite vers <strong>f'(1) = 2</strong>.</p>
+  </div>
+</div>
+</div>
+
+<!-- ===================== SECTION 3 : INTERACTIF COMPARATIF ===================== -->
+<div class="section" id="s3">
+<div class="container">
+  <div class="section-title">Comparatif interactif</div>
+  <p class="section-sub">Sécante (variation globale) vs Tangente (variation instantanée) — sur la même courbe</p>
+
+  <div class="canvas-wrapper">
+    <canvas id="c3" height="380"></canvas>
+    <div class="controls">
+      <div class="ctrl-group">
+        <label>Point a</label>
+        <input type="range" id="r3a" min="-2" max="2" step="0.05" value="-0.5">
+        <span class="val-display" id="v3a">a = −0.50</span>
+      </div>
+      <div class="ctrl-group">
+        <label>Point b (sécante)</label>
+        <input type="range" id="r3b" min="-1.5" max="3" step="0.05" value="2">
+        <span class="val-display" id="v3b">b = 2.00</span>
+      </div>
+      <div class="ctrl-group">
+        <label>Fonction</label>
+        <select id="r3f" style="font-family:'DM Mono',monospace; padding:0.3rem; border:1px solid var(--border); border-radius:3px; background:var(--cream);">
+          <option value="x2">f(x) = x²</option>
+          <option value="x3">f(x) = x³</option>
+          <option value="sin">f(x) = sin(x)</option>
+          <option value="cubic">f(x) = x³ − 3x</option>
+          <option value="wave">f(x) = x³ − 2x² + x + 1</option>
+        </select>
+      </div>
+    </div>
+    <div class="info-row">
+      <div class="info-box">
+        <div class="label">🟠 Sécante τ(a,b)</div>
+        <div class="value orange" id="i3sec">—</div>
+      </div>
+      <div class="info-box">
+        <div class="label">🔵 Tangente f'(a)</div>
+        <div class="value blue" id="i3tan">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>À retenir absolument</h3>
+    <p><strong>Variation globale</strong> = pente de la droite entre deux points éloignés = <em>sécante</em><br>
+    <strong>Variation instantanée</strong> = pente quand les deux points se rapprochent infiniment = <em>tangente</em> = <em>dérivée</em></p>
+    <div class="big">f'(a) = lim<sub>h→0</sub> [f(a+h)−f(a)] / h</div>
+    <p>La dérivée est le <strong>taux de variation instantané</strong> — c'est ça la définition fondamentale.</p>
+  </div>
+</div>
+</div>
+
+
+
+<script>
+// ===== FUNCTIONS =====
+const funcs = {
+  x2:    { f: x => x*x,              d: x => 2*x,         label: 'f(x) = x²' },
+  x3:    { f: x => x*x*x,            d: x => 3*x*x,       label: 'f(x) = x³' },
+  sin:   { f: x => Math.sin(x),      d: x => Math.cos(x), label: 'f(x) = sin(x)' },
+  cubic: { f: x => x*x*x - 3*x,      d: x => 3*x*x - 3,   label: 'f(x) = x³−3x' },
+  wave:  { f: x => x*x*x - 2*x*x + x + 1, d: x => 3*x*x - 4*x + 1, label: 'f(x) = x³−2x²+x+1' }
+};
+
+// ===== CANVAS — fixed size, set once per canvas id =====
+const _cvs = {};
+function getCanvas(id) {
+  if (_cvs[id]) return _cvs[id];
+  const el = document.getElementById(id);
+  const dpr = window.devicePixelRatio || 1;
+  // Always use a fixed pixel width; never re-read clientWidth after first call
+  const W = 700;
+  const H = parseInt(el.getAttribute('height'));
+  el.width  = W * dpr;
+  el.height = H * dpr;
+  el.style.width  = '100%';
+  el.style.height = H + 'px';
+  const ctx = el.getContext('2d');
+  ctx.scale(dpr, dpr);
+  _cvs[id] = { ctx, W, H };
+  return _cvs[id];
+}
+
+// RAF throttle
+const _raf = {};
+function sched(id, fn) {
+  if (_raf[id]) return;
+  _raf[id] = requestAnimationFrame(() => { _raf[id] = null; fn(); });
+}
+
+// ===== MATH HELPERS =====
+function w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad=40) {
+  return [
+    pad + (x - xMin) / (xMax - xMin) * (W - 2*pad),
+    H - pad - (y - yMin) / (yMax - yMin) * (H - 2*pad)
+  ];
+}
+
+function grid(ctx, W, H, xMin, xMax, yMin, yMax, pad=40) {
+  ctx.strokeStyle = '#e8e4d8'; ctx.lineWidth = 1;
+  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
+    const [sx] = w2s(x, 0, xMin, xMax, yMin, yMax, W, H, pad);
+    ctx.beginPath(); ctx.moveTo(sx, pad); ctx.lineTo(sx, H-pad); ctx.stroke();
+    ctx.fillStyle = '#aaa'; ctx.font = '11px DM Mono,monospace';
+    ctx.fillText(x, sx-4, H-pad+16);
+  }
+  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
+    const [, sy] = w2s(0, y, xMin, xMax, yMin, yMax, W, H, pad);
+    ctx.beginPath(); ctx.moveTo(pad, sy); ctx.lineTo(W-pad, sy); ctx.stroke();
+    if (y !== 0) { ctx.fillStyle='#aaa'; ctx.font='11px DM Mono,monospace'; ctx.fillText(y, pad-22, sy+4); }
+  }
+  ctx.strokeStyle = '#555'; ctx.lineWidth = 1.5;
+  const [ax0,ay0] = w2s(xMin, 0, xMin, xMax, yMin, yMax, W, H, pad);
+  const [ax1,ay1] = w2s(xMax, 0, xMin, xMax, yMin, yMax, W, H, pad);
+  ctx.beginPath(); ctx.moveTo(ax0,ay0); ctx.lineTo(ax1,ay1); ctx.stroke();
+  const [bx0,by0] = w2s(0, yMin, xMin, xMax, yMin, yMax, W, H, pad);
+  const [bx1,by1] = w2s(0, yMax, xMin, xMax, yMin, yMax, W, H, pad);
+  ctx.beginPath(); ctx.moveTo(bx0,by0); ctx.lineTo(bx1,by1); ctx.stroke();
+}
+
+function curve(ctx, fn, xMin, xMax, yMin, yMax, W, H, color='#0f0f14', pad=40) {
+  ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+  ctx.beginPath(); let first = true;
+  for (let i = 0; i <= 200; i++) {
+    const x = xMin + i/200*(xMax-xMin);
+    const y = fn(x);
+    if (y < yMin-2 || y > yMax+2) { first=true; continue; }
+    const [sx,sy] = w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad);
+    first ? (ctx.moveTo(sx,sy), first=false) : ctx.lineTo(sx,sy);
+  }
+  ctx.stroke();
+}
+
+function dot(ctx, x, y, xMin, xMax, yMin, yMax, W, H, color, r=5, pad=40) {
+  const [sx,sy] = w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad);
+  ctx.beginPath(); ctx.arc(sx,sy,r,0,2*Math.PI);
+  ctx.fillStyle=color; ctx.fill();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+  return [sx,sy];
+}
+
+function line(ctx, x0, y0, x1, y1, xMin, xMax, yMin, yMax, W, H, color, lw=2, pad=40) {
+  const [sx0,sy0] = w2s(x0,y0,xMin,xMax,yMin,yMax,W,H,pad);
+  const [sx1,sy1] = w2s(x1,y1,xMin,xMax,yMin,yMax,W,H,pad);
+  ctx.strokeStyle=color; ctx.lineWidth=lw;
+  ctx.beginPath(); ctx.moveTo(sx0,sy0); ctx.lineTo(sx1,sy1); ctx.stroke();
+}
+
+// ===== NAV =====
+const sections = document.querySelectorAll('.section');
+const navBtns  = document.querySelectorAll('nav button');
+function goTo(i) {
+  sections.forEach((s,j) => s.classList.toggle('active', i===j));
+  navBtns.forEach((b,j)  => b.classList.toggle('active', i===j));
+  if (i===0) drawC0();
+  if (i===1) drawC1();
+  if (i===2) { initAnim(); drawC2(1, 2); }
+  if (i===3) drawC3();
+}
+
+// ===== S0 — VARIATION GLOBALE =====
+function drawC0() {
+  const {ctx,W,H} = getCanvas('c0');
+  const a = parseFloat(document.getElementById('r0a').value);
+  const b = parseFloat(document.getElementById('r0b').value);
+  document.getElementById('v0a').textContent = 'a = ' + a.toFixed(2);
+  document.getElementById('v0b').textContent = 'b = ' + b.toFixed(2);
+  const xMin=-3, xMax=3.5, yMin=-1, yMax=10;
+  ctx.clearRect(0,0,W,H);
+  grid(ctx,W,H,xMin,xMax,yMin,yMax);
+  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
+  if (a < b) {
+    const fa=a*a, fb=b*b;
+    const sl=(fb-fa)/(b-a);
+    line(ctx,xMin,fa+sl*(xMin-a),xMax,fa+sl*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
+    const [sxa,sya] = w2s(a,fa,xMin,xMax,yMin,yMax,W,H);
+    const [sxb,syb] = w2s(b,fb,xMin,xMax,yMin,yMax,W,H);
+    const [,sy0]    = w2s(a,0, xMin,xMax,yMin,yMax,W,H);
+    ctx.setLineDash([4,4]); ctx.strokeStyle='#ccc'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(sxa,sya); ctx.lineTo(sxa,sy0); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(sxb,syb); ctx.lineTo(sxb,sy0); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle='#e85d26'; ctx.font='bold 12px DM Sans,sans-serif';
+    ctx.fillText('Δx',(sxa+sxb)/2-8, sy0+18);
+    ctx.fillText('Δf', sxb+6, (sya+syb)/2);
+    dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
+    dot(ctx,b,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
+    ctx.fillStyle='#e85d26'; ctx.font='13px DM Mono,monospace';
+    ctx.fillText('(a,f(a))',sxa-55,sya-8);
+    ctx.fillText('(b,f(b))',sxb+8,syb-8);
+    document.getElementById('i0df').textContent = (fb-fa).toFixed(3);
+    document.getElementById('i0tv').textContent = sl.toFixed(3);
+  }
+}
+document.getElementById('r0a').addEventListener('input', () => sched('c0', drawC0));
+document.getElementById('r0b').addEventListener('input', () => sched('c0', drawC0));
+
+// ===== S1 — VARIATION INSTANTANÉE =====
+function drawC1() {
+  const {ctx,W,H} = getCanvas('c1');
+  const a = parseFloat(document.getElementById('r1a').value);
+  const h = parseFloat(document.getElementById('r1h').value);
+  document.getElementById('v1a').textContent = 'a = ' + a.toFixed(2);
+  document.getElementById('v1h').textContent = 'h = ' + h.toFixed(2);
+  const xMin=-2.5, xMax=3.5, yMin=-0.5, yMax=9;
+  ctx.clearRect(0,0,W,H);
+  grid(ctx,W,H,xMin,xMax,yMin,yMax);
+  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
+  const fa=a*a, fb=(a+h)*(a+h);
+  const slS=(fb-fa)/h, slT=2*a;
+  line(ctx,xMin,fa+slT*(xMin-a),xMax,fa+slT*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
+  line(ctx,xMin,fa+slS*(xMin-a),xMax,fa+slS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
+  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#2563e8',6);
+  dot(ctx,a+h,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
+  const [sxa,sya] = w2s(a,fa,xMin,xMax,yMin,yMax,W,H);
+  const [sxb,syb] = w2s(a+h,fb,xMin,xMax,yMin,yMax,W,H);
+  ctx.fillStyle='#e85d26'; ctx.font='12px DM Mono,monospace';
+  ctx.fillText('←h→',(sxa+sxb)/2-15, Math.min(sya,syb)-12);
+  ctx.fillStyle='#e85d26'; ctx.font='13px DM Sans,sans-serif';
+  ctx.fillText('sécante τ = '+slS.toFixed(3), 50, 25);
+  ctx.fillStyle='#2563e8';
+  ctx.fillText("tangente f'(a) = "+slT.toFixed(3), 50, 42);
+  document.getElementById('i1tv').textContent    = slS.toFixed(4);
+  document.getElementById('i1deriv').textContent = slT.toFixed(4);
+}
+document.getElementById('r1a').addEventListener('input', () => sched('c1', drawC1));
+document.getElementById('r1h').addEventListener('input', () => sched('c1', drawC1));
+
+// ===== S2 — PASSAGE À LA LIMITE =====
+const hVals = [2, 1, 0.5, 0.2, 0.1, 0.05, 0.01];
+let animIdx=0, animTimer=null;
+
+function initAnim() {
+  const seq = document.getElementById('hseq');
+  seq.innerHTML = '';
+  hVals.forEach((v,i) => {
+    const c = document.createElement('div');
+    c.className='h-chip'; c.id='chip'+i; c.textContent='h='+v;
+    seq.appendChild(c);
+  });
+  animIdx = 0;
+  drawC2(1, hVals[0]);
+}
+
+function drawC2(a, h) {
+  const {ctx,W,H} = getCanvas('c2');
+  const xMin=-1, xMax=3.5, yMin=-0.2, yMax=8;
+  ctx.clearRect(0,0,W,H);
+  grid(ctx,W,H,xMin,xMax,yMin,yMax);
+  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
+  const fa=a*a, fb=(a+h)*(a+h);
+  const slT=2*a, slS=(fb-fa)/h;
+  ctx.setLineDash([6,4]);
+  line(ctx,xMin,fa+slT*(xMin-a),xMax,fa+slT*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
+  ctx.setLineDash([]);
+  line(ctx,xMin,fa+slS*(xMin-a),xMax,fa+slS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
+  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#0f0f14',6);
+  dot(ctx,a+h,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',5);
+  ctx.fillStyle='#e85d26'; ctx.font='bold 13px DM Sans,sans-serif';
+  ctx.fillText('sécante : τ = '+slS.toFixed(3), 50, 22);
+  ctx.fillStyle='#2563e8';
+  ctx.fillText("tangente : f'(1) = 2", 50, 40);
+  document.getElementById('i2h').textContent  = h;
+  document.getElementById('i2tv').textContent = slS.toFixed(4);
+}
+
+function startLimitAnim() {
+  if (animTimer) clearInterval(animTimer);
+  animIdx = 0;
+  hVals.forEach((_,i) => { const c=document.getElementById('chip'+i); if(c) c.className='h-chip'; });
+  animTimer = setInterval(() => {
+    if (animIdx >= hVals.length) { clearInterval(animTimer); return; }
+    hVals.forEach((_,i) => {
+      const c = document.getElementById('chip'+i); if(!c) return;
+      c.className = i < animIdx ? 'h-chip done' : i===animIdx ? 'h-chip active' : 'h-chip';
+    });
+    drawC2(1, hVals[animIdx++]);
+  }, 900);
+}
+
+// ===== S3 — COMPARATIF =====
+function drawC3() {
+  const {ctx,W,H} = getCanvas('c3');
+  const a   = parseFloat(document.getElementById('r3a').value);
+  const b   = parseFloat(document.getElementById('r3b').value);
+  const fn  = funcs[document.getElementById('r3f').value];
+  document.getElementById('v3a').textContent = 'a = ' + a.toFixed(2);
+  document.getElementById('v3b').textContent = 'b = ' + b.toFixed(2);
+  const xMin=-3, xMax=3.5, yMin=-5, yMax=12;
+  ctx.clearRect(0,0,W,H);
+  grid(ctx,W,H,xMin,xMax,yMin,yMax);
+  curve(ctx,fn.f,xMin,xMax,yMin,yMax,W,H,'#0f0f14');
+  const fa=fn.f(a), fb=fn.f(b), da=fn.d(a);
+  if (Math.abs(b-a) > 0.01) {
+    const sS=(fb-fa)/(b-a);
+    line(ctx,xMin,fa+sS*(xMin-a),xMax,fa+sS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
+    dot(ctx,b,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',5);
+    document.getElementById('i3sec').textContent = sS.toFixed(4);
+  }
+  line(ctx,xMin,fa+da*(xMin-a),xMax,fa+da*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
+  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#2563e8',6);
+  ctx.fillStyle='#e85d26'; ctx.font='bold 13px DM Sans,sans-serif';
+  ctx.fillText('sécante (orange)', 48, 22);
+  ctx.fillStyle='#2563e8';
+  ctx.fillText('tangente (bleu) — '+fn.label, 48, 40);
+  document.getElementById('i3tan').textContent = da.toFixed(4);
+}
+['r3a','r3b','r3f'].forEach(id => document.getElementById(id).addEventListener('input', () => sched('c3', drawC3)));
+
+// ===== INIT — draw section 0 only (others are hidden) =====
+drawC0();
+// sections 1-3 drawn on first goTo() call so clientWidth is valid
+</script>
+</body>
+</html>

@@ -3,818 +3,1409 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Variation & Dérivée — 1ère</title>
+<title>Physique · 1ère Spécialité — Fiches de révision</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@300;400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap');
+:root {
+  /* ── DARK ZONE (header, hero, formula blocks) ── */
+  --dark-bg:      #020c1b;
+  --dark-surface: #071628;
+  --dark-card:    #0c1f38;
+  --dark-border:  rgba(125,211,252,.1);
 
-  :root {
-    --ink: #0f0f14;
-    --paper: #faf8f3;
-    --cream: #f2eeE4;
-    --accent: #e85d26;
-    --accent2: #2563e8;
-    --gold: #c9a84c;
-    --green: #1a7a4a;
-    --muted: #7a7670;
-    --border: #d8d3c8;
-  }
+  /* ── LIGHT ZONE (content area) ── */
+  --lt-bg:        #e0f5fb;
+  --lt-surface:   #eef9fd;
+  --lt-card:      #f5fcff;
+  --lt-border:    rgba(7,89,133,.15);
+  --lt-border2:   rgba(7,89,133,.08);
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* ── BLUES ── */
+  --navy:         #030e1e;
+  --royal:        #1a4fa0;
+  --cobalt:       #1d6fa8;
+  --sky:          #0ea5e9;
+  --cyan:         #22d3ee;
+  --cyan-lt:      #67e8f9;
+  --ice:          #cffafe;
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+  /* ── TEXT ── */
+  --t-dark:       #cffafe;   /* cyan-ice on dark bg */
+  --t-light:      #0c2d4a;   /* deep navy on light bg */
+  --t-mid:        #1e4d7a;
+  --t-muted:      #3b7ba8;
+  --t-faint:      rgba(12,45,74,.45);
 
-  /* HEADER */
-  header {
-    background: var(--ink);
-    padding: 2.5rem 2rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: 'f(x)';
-    position: absolute; right: -20px; top: -20px;
-    font-family: 'Playfair Display', serif;
-    font-size: 14rem; font-weight: 900;
-    color: rgba(255,255,255,0.03);
-    pointer-events: none; user-select: none;
-  }
-  .chapter-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 0.18em;
-    color: var(--gold); text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    color: #fff; line-height: 1.1;
-    max-width: 700px;
-  }
-  header h1 span { color: var(--accent); }
-  .subtitle {
-    margin-top: 0.7rem;
-    color: rgba(255,255,255,0.5);
-    font-size: 0.95rem; font-weight: 300;
-  }
+  /* ── CORRIGÉ ── */
+  --cor-bg:       #e0f2fe;
+  --cor-border:   rgba(14,165,233,.2);
+  --cor-accent:   #0369a1;
+}
 
-  /* NAV PILLS */
-  nav {
-    background: var(--cream);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; gap: 0;
-    overflow-x: auto;
-  }
-  nav button {
-    background: none; border: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem; font-weight: 500;
-    color: var(--muted);
-    padding: 1rem 1.4rem;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s; white-space: nowrap;
-  }
-  nav button.active { color: var(--ink); border-bottom-color: var(--accent); }
-  nav button:hover:not(.active) { color: var(--ink); }
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
 
-  /* SECTIONS */
-  .section { display: none; animation: fadeIn 0.35s ease; }
-  .section.active { display: block; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--lt-bg);
+  color: var(--t-light);
+  font-size: 15px;
+  line-height: 1.78;
+}
 
-  .container { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+/* ════════════════════════════════════════
+   STICKY HEADER — dark zone
+════════════════════════════════════════ */
+.site-header {
+  background: var(--dark-bg);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 32px rgba(2,12,27,.8);
+  border-bottom: 1px solid rgba(34,211,238,.07);
+}
+.header-inner {
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 40px;
+  display: flex; align-items: stretch;
+  height: 62px; gap: 0;
+}
 
-  /* CONCEPT CARD */
-  .concept-card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-  .concept-card::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; border-radius: 4px 0 0 4px;
-  }
-  .concept-card.orange::before { background: var(--accent); }
-  .concept-card.blue::before { background: var(--accent2); }
-  .concept-card.green::before { background: var(--green); }
+/* Logo */
+.logo {
+  display: flex; align-items: center; gap: 12px;
+  padding-right: 28px;
+  border-right: 1px solid rgba(34,211,238,.08);
+  flex-shrink: 0;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--royal), var(--sky));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; font-weight: 500; color: #fff;
+  box-shadow: 0 2px 12px rgba(14,165,233,.3);
+}
+.logo-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(207,250,254,.5);
+  line-height: 1.4;
+}
+.logo-text span {
+  display: block;
+  color: rgba(207,250,254,.25);
+  font-size: 8.5px; letter-spacing: 1.5px;
+}
 
-  .concept-card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; margin-bottom: 0.5rem;
-  }
-  .concept-card .formula {
-    font-family: 'DM Mono', monospace;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1rem 1.2rem;
-    margin: 1rem 0;
-    font-size: 1.05rem;
-    line-height: 1.8;
-  }
-  .concept-card p { color: #444; line-height: 1.7; font-size: 0.95rem; }
+/* Chapter tabs */
+.chap-tabs {
+  display: flex; align-items: stretch;
+  padding: 0 28px; flex: 1; gap: 2px;
+}
+.chap-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0 18px;
+  background: transparent; border: none; cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+  position: relative;
+}
+.chap-btn .cn {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px;
+  color: rgba(207,250,254,.25);
+  transition: color .2s;
+}
+.chap-btn .ct {
+  font-size: 12.5px; font-weight: 500;
+  color: rgba(207,250,254,.4);
+  letter-spacing: .1px;
+  transition: color .2s;
+}
+.chap-btn:hover .cn { color: var(--cyan-lt); }
+.chap-btn:hover .ct { color: rgba(207,250,254,.85); }
+.chap-btn.active { border-bottom-color: var(--cyan); }
+.chap-btn.active .cn { color: var(--cyan); }
+.chap-btn.active .ct { color: #fff; font-weight: 600; }
 
-  /* BADGE */
-  .badge {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 0.2rem 0.6rem; border-radius: 2px; margin-bottom: 0.8rem;
-  }
-  .badge-orange { background: #fde8dc; color: var(--accent); }
-  .badge-blue { background: #dce8fd; color: var(--accent2); }
-  .badge-green { background: #dcfde8; color: var(--green); }
+/* ════════════════════════════════════════
+   HERO — dark zone
+════════════════════════════════════════ */
+.chapter-hero {
+  background: var(--dark-bg);
+  position: relative; overflow: hidden;
+  padding: 56px 40px 50px;
+}
+.chapter-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 90% at -5% 110%, rgba(14,165,233,.18) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 105% -5%,  rgba(34,211,238,.08) 0%, transparent 50%);
+}
+/* blueprint grid */
+.chapter-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(34,211,238,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,.04) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+.hero-inner {
+  max-width: 1000px; margin: 0 auto;
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: end; gap: 40px;
+}
+.hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--cyan); opacity: .7; margin-bottom: 18px;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.6rem, 4.5vw, 3.9rem);
+  font-weight: 300; color: #fff;
+  line-height: 1.08; letter-spacing: -.02em;
+}
+.hero-title em { font-style: italic; color: var(--cyan-lt); }
+.hero-desc {
+  margin-top: 18px; font-size: 12.5px;
+  color: rgba(207,250,254,.38);
+  font-weight: 300; letter-spacing: .3px;
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.hero-desc span { display: flex; align-items: center; gap: 6px; }
+.hero-desc span::before {
+  content: ''; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--sky); display: block; opacity: .7;
+}
+.hero-glyph {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 8.5rem; font-weight: 700;
+  color: rgba(34,211,238,.05);
+  line-height: 1; user-select: none; align-self: center;
+}
 
-  /* CANVAS ZONE */
-  .canvas-wrapper {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  canvas { display: block; width: 100%; border-radius: 2px; }
+/* ════════════════════════════════════════
+   SECTION NAV — dark zone
+════════════════════════════════════════ */
+.section-nav {
+  background: var(--dark-surface);
+  border-bottom: 1px solid rgba(34,211,238,.07);
+}
+.snav-inner {
+  max-width: 1000px; margin: 0 auto;
+  padding: 0 40px;
+  display: flex; overflow-x: auto;
+  scrollbar-width: none;
+}
+.snav-inner::-webkit-scrollbar { display: none; }
+.snav-a {
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(207,250,254,.3);
+  text-decoration: none;
+  padding: 13px 16px;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: all .18s;
+}
+.snav-a:hover { color: var(--cyan); border-bottom-color: rgba(34,211,238,.4); }
 
-  /* CONTROLS */
-  .controls {
-    display: flex; flex-wrap: wrap; gap: 1.2rem;
-    align-items: center; margin-top: 1.2rem;
-  }
-  .ctrl-group { display: flex; flex-direction: column; gap: 0.3rem; flex: 1; min-width: 160px; }
-  .ctrl-group label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--muted);
-  }
-  .ctrl-group input[type=range] {
-    -webkit-appearance: none; appearance: none;
-    height: 4px; border-radius: 2px;
-    background: var(--border); outline: none;
-    cursor: pointer;
-  }
-  .ctrl-group input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px; height: 16px; border-radius: 50%;
-    background: var(--ink); cursor: pointer;
-    border: 2px solid #fff; box-shadow: 0 0 0 1px var(--ink);
-  }
-  .val-display {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.9rem; font-weight: 500; color: var(--ink);
-  }
+/* ════════════════════════════════════════
+   CHAPTER PAGE VISIBILITY
+════════════════════════════════════════ */
+.chapter-page { display: none; }
+.chapter-page.active { display: block; }
 
-  /* INFO BOXES */
-  .info-row {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.2rem;
-  }
-  .info-box {
-    background: var(--cream);
-    border: 1px solid var(--border); border-radius: 4px;
-    padding: 1rem 1.2rem;
-  }
-  .info-box .label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted);
-    margin-bottom: 0.3rem;
-  }
-  .info-box .value {
-    font-family: 'DM Mono', monospace;
-    font-size: 1.2rem; font-weight: 500;
-  }
-  .info-box .value.orange { color: var(--accent); }
-  .info-box .value.blue { color: var(--accent2); }
-  .info-box .value.green { color: var(--green); }
+/* ════════════════════════════════════════
+   CONTENT AREA — light cyan zone
+════════════════════════════════════════ */
+.content-wrap {
+  max-width: 1000px; margin: 0 auto;
+  padding: 56px 40px 80px;
+}
 
-  /* KEY INSIGHT BOX */
-  .insight {
-    background: var(--ink); color: #fff;
-    border-radius: 4px; padding: 1.5rem 1.8rem;
-    margin: 2rem 0;
-  }
-  .insight h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem; margin-bottom: 0.5rem;
-    color: var(--gold);
-  }
-  .insight p { font-size: 0.92rem; line-height: 1.7; color: rgba(255,255,255,0.8); }
-  .insight .big {
-    font-family: 'DM Mono', monospace;
-    font-size: 1.1rem; margin: 0.8rem 0; color: #fff;
-    padding: 0.6rem 1rem; background: rgba(255,255,255,0.08);
-    border-radius: 3px; display: inline-block;
-  }
+/* ════════════════════════════════════════
+   SECTION HEADERS
+════════════════════════════════════════ */
+.s-head {
+  display: flex; align-items: center; gap: 18px;
+  margin: 60px 0 26px;
+}
+.s-head:first-child { margin-top: 0; }
+.s-head .s-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; font-weight: 700;
+  color: var(--cobalt); line-height: 1;
+  opacity: .18; flex-shrink: 0;
+}
+.s-head h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.65rem; font-weight: 600;
+  color: var(--navy); letter-spacing: -.015em;
+}
+.s-head .s-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--cobalt), transparent);
+  opacity: .2;
+}
 
-  /* QUIZ */
-  .quiz-card {
-    background: #fff; border: 1px solid var(--border);
-    border-radius: 4px; padding: 2rem; margin-bottom: 1.5rem;
-  }
-  .quiz-card .question {
-    font-weight: 500; font-size: 1rem; margin-bottom: 1.2rem; line-height: 1.6;
-  }
-  .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; }
-  .quiz-option {
-    background: var(--cream); border: 1.5px solid var(--border);
-    border-radius: 4px; padding: 0.75rem 1.1rem;
-    cursor: pointer; font-size: 0.92rem;
-    transition: all 0.18s; text-align: left;
-    font-family: 'DM Sans', sans-serif;
-  }
-  .quiz-option:hover { border-color: var(--ink); background: #fff; }
-  .quiz-option.correct { border-color: var(--green); background: #dcfde8; color: var(--green); }
-  .quiz-option.wrong { border-color: var(--accent); background: #fde8dc; color: var(--accent); }
-  .quiz-feedback {
-    margin-top: 0.8rem; font-size: 0.88rem;
-    padding: 0.6rem 1rem; border-radius: 3px;
-    display: none; line-height: 1.5;
-  }
-  .quiz-feedback.show { display: block; }
-  .quiz-feedback.ok { background: #dcfde8; color: var(--green); }
-  .quiz-feedback.ko { background: #fde8dc; color: #b84010; }
+/* ════════════════════════════════════════
+   CARDS — light zone elevated
+════════════════════════════════════════ */
+.card {
+  background: var(--lt-card);
+  border: 1px solid var(--lt-border2);
+  border-radius: 14px;
+  padding: 26px 30px;
+  margin-bottom: 18px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(7,89,133,.06), 0 4px 16px rgba(7,89,133,.05);
+  transition: box-shadow .2s, transform .2s;
+}
+.card:hover {
+  box-shadow: 0 2px 8px rgba(7,89,133,.1), 0 8px 28px rgba(7,89,133,.08);
+  transform: translateY(-1px);
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2.5px;
+  background: linear-gradient(90deg, var(--royal), var(--sky), var(--cyan));
+}
 
-  /* SECTION TITLE */
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8rem; margin-bottom: 0.3rem;
-  }
-  .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 2rem; }
+.card-label {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--cobalt);
+  margin-bottom: 10px;
+  padding: 4px 12px 4px 6px;
+  background: rgba(14,165,233,.08);
+  border-radius: 20px;
+}
+.card-label .cl-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--sky); flex-shrink: 0;
+}
+.card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.28rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 12px;
+  letter-spacing: -.01em;
+}
+.card p { color: var(--t-mid); font-size: 14.5px; }
+.card ul { padding-left: 0; list-style: none; margin-top: 8px; }
+.card ul li {
+  padding: 4px 0 4px 20px; position: relative;
+  font-size: 14.5px; color: var(--t-mid);
+}
+.card ul li::before {
+  content: ''; position: absolute; left: 0; top: 13px;
+  width: 8px; height: 1.5px;
+  background: var(--sky); opacity: .6;
+}
 
-  /* STEP LIST */
-  .steps { counter-reset: step; list-style: none; }
-  .steps li {
-    counter-increment: step;
-    padding: 0.8rem 0 0.8rem 3rem;
-    position: relative; border-bottom: 1px solid var(--border);
-    font-size: 0.93rem; line-height: 1.6; color: #333;
-  }
-  .steps li:last-child { border: none; }
-  .steps li::before {
-    content: counter(step);
-    position: absolute; left: 0; top: 0.8rem;
-    width: 1.8rem; height: 1.8rem;
-    background: var(--ink); color: #fff;
-    border-radius: 50%;
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 500;
-  }
+/* ════════════════════════════════════════
+   FORMULA BLOCKS — dark zone
+════════════════════════════════════════ */
+.fml {
+  background: var(--dark-bg);
+  border-radius: 10px;
+  padding: 20px 26px;
+  margin: 16px 0;
+  position: relative;
+  border: 1px solid rgba(34,211,238,.12);
+  box-shadow: inset 0 1px 0 rgba(34,211,238,.04);
+}
+.fml-tag {
+  position: absolute; top: 9px; right: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(34,211,238,.3);
+}
+.fml .eq {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem; color: var(--cyan-lt);
+  line-height: 2.15;
+}
+.fml .vars {
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(34,211,238,.07);
+  font-size: 12.5px;
+  color: rgba(207,250,254,.45);
+  line-height: 1.85;
+  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 300;
+}
 
-  /* TABLE */
-  .math-table {
-    width: 100%; border-collapse: collapse; margin: 1rem 0;
-    font-size: 0.9rem;
-  }
-  .math-table th {
-    background: var(--ink); color: #fff;
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
-    letter-spacing: 0.08em; padding: 0.7rem 1rem; text-align: left;
-  }
-  .math-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
-  .math-table tr:nth-child(even) td { background: var(--cream); }
+/* ════════════════════════════════════════
+   REMARK
+════════════════════════════════════════ */
+.rem {
+  display: flex; gap: 12px; align-items: flex-start;
+  background: rgba(14,165,233,.07);
+  border: 1px solid rgba(14,165,233,.15);
+  border-radius: 8px;
+  padding: 13px 16px; margin-top: 14px;
+}
+.rem .ri {
+  flex-shrink: 0; width: 22px; height: 22px;
+  background: linear-gradient(135deg, var(--royal), var(--sky));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #fff;
+  margin-top: 1px;
+  box-shadow: 0 2px 8px rgba(14,165,233,.3);
+}
+.rem p { color: var(--t-mid); font-size: 13.5px; line-height: 1.7; }
+.rem strong { color: var(--royal); }
 
-  /* LIMIT ANIMATION */
-  #limit-demo { text-align: center; padding: 2rem; }
-  .h-sequence {
-    display: flex; flex-wrap: wrap; gap: 0.5rem;
-    justify-content: center; margin: 1rem 0;
-  }
-  .h-chip {
-    font-family: 'DM Mono', monospace; font-size: 0.8rem;
-    padding: 0.3rem 0.7rem; border-radius: 2px;
-    background: var(--cream); border: 1px solid var(--border);
-    transition: all 0.3s;
-  }
-  .h-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); transform: scale(1.1); }
-  .h-chip.done { background: var(--ink); color: #fff; border-color: var(--ink); opacity: 0.5; }
+/* ════════════════════════════════════════
+   COMPARE GRIDS
+════════════════════════════════════════ */
+.cmp, .two {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px; margin: 16px 0;
+}
+.cmp-box, .two-box {
+  padding: 18px 20px; border-radius: 10px;
+  border: 1px solid var(--lt-border);
+  background: rgba(14,165,233,.04);
+}
+.cmp-box .cmp-title, .two-box .tt {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cobalt); margin-bottom: 8px;
+}
+.cmp-box.r .cmp-title, .two-box.b .tt { color: var(--royal); }
+.cmp-box p, .two-box p { font-size: 13.5px; color: var(--t-mid); line-height: 1.65; }
 
-  #animate-btn {
-    background: var(--ink); color: #fff; border: none;
-    padding: 0.7rem 1.8rem; border-radius: 3px; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-weight: 500;
-    font-size: 0.9rem; transition: background 0.2s;
-  }
-  #animate-btn:hover { background: var(--accent); }
+/* ════════════════════════════════════════
+   SCHEMA BOX
+════════════════════════════════════════ */
+.schema-box {
+  background: var(--lt-card);
+  border: 1px solid var(--lt-border2);
+  border-radius: 14px;
+  padding: 24px 28px 20px; margin-bottom: 18px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(7,89,133,.04);
+}
+.schema-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cobalt); margin-bottom: 16px; opacity: .8;
+}
+.schema-sub { font-size: 11.5px; color: var(--t-muted); font-style: italic; margin-top: 10px; }
 
-  @media (max-width: 600px) {
-    .info-row { grid-template-columns: 1fr; }
-    .container { padding: 1.5rem 1rem; }
-  }
+/* ════════════════════════════════════════
+   TABLE
+════════════════════════════════════════ */
+.tbl {
+  width: 100%; border-collapse: collapse;
+  margin: 16px 0; font-size: 13.5px;
+  border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(7,89,133,.06);
+}
+.tbl th {
+  background: var(--navy); color: var(--cyan-lt);
+  padding: 11px 16px; text-align: left;
+  font-weight: 500; font-size: 12.5px;
+  letter-spacing: .2px;
+}
+.tbl td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--lt-border2);
+  color: var(--t-mid);
+  background: var(--lt-card);
+}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:nth-child(even) td { background: rgba(14,165,233,.03); }
+
+/* ════════════════════════════════════════
+   METHOD STEPS
+════════════════════════════════════════ */
+.steps-list { counter-reset: st; list-style: none; margin: 14px 0; }
+.steps-list li {
+  counter-increment: st;
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 13px; font-size: 14.5px; color: var(--t-mid);
+}
+.steps-list li::before {
+  content: counter(st);
+  background: linear-gradient(135deg, var(--royal), var(--sky));
+  color: #fff; width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; font-family: 'DM Mono', monospace;
+  flex-shrink: 0; margin-top: 2px;
+  box-shadow: 0 2px 8px rgba(14,165,233,.35);
+}
+
+/* ════════════════════════════════════════
+   EXERCICES
+════════════════════════════════════════ */
+.exo-section {
+  margin-top: 72px; padding-top: 48px;
+  border-top: 1px solid var(--lt-border);
+}
+.exo-section-head {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 6px;
+}
+.exo-section-sub {
+  font-size: 13px; color: var(--t-muted);
+  font-style: italic; margin-bottom: 40px;
+}
+
+.exo {
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 30px;
+  border: 1px solid var(--lt-border);
+  box-shadow: 0 2px 14px rgba(7,89,133,.07), 0 1px 4px rgba(7,89,133,.04);
+}
+/* exo header — dark */
+.exo-top {
+  background: var(--dark-surface);
+  padding: 20px 28px;
+  display: flex; align-items: center; gap: 16px;
+  border-bottom: 1px solid rgba(34,211,238,.07);
+}
+.exo-badge {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--royal), var(--sky));
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: #fff;
+  flex-shrink: 0;
+  font-family: 'Cormorant Garamond', serif;
+  box-shadow: 0 2px 10px rgba(14,165,233,.4);
+}
+.exo-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: #fff;
+}
+.exo-tag {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(207,250,254,.3); text-align: right; line-height: 1.6;
+}
+/* exo body — light */
+.exo-body { background: var(--lt-surface); padding: 26px 28px; }
+.donnees {
+  background: rgba(14,165,233,.07);
+  border-left: 3px solid var(--sky);
+  border-radius: 0 8px 8px 0;
+  padding: 13px 18px; margin-bottom: 22px;
+  font-size: 13.5px; color: var(--t-mid);
+}
+.donnees strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cobalt); display: block; margin-bottom: 7px;
+}
+.q {
+  display: flex; align-items: flex-start; gap: 11px;
+  margin-bottom: 13px; font-size: 14.5px; color: var(--t-mid);
+}
+.q-n {
+  flex-shrink: 0; width: 23px; height: 23px;
+  background: var(--navy); color: var(--cyan-lt);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700;
+  font-family: 'DM Mono', monospace; margin-top: 2px;
+}
+
+/* ════════════════════════════════════════
+   CORRIGÉ BUTTON — dark toggle
+════════════════════════════════════════ */
+.corrige-btn {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%;
+  background: var(--dark-card);
+  color: var(--cyan-lt);
+  border: none; border-top: 1px solid rgba(34,211,238,.08);
+  padding: 14px 28px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; letter-spacing: .2px;
+  transition: background .2s;
+}
+.corrige-btn:hover { background: var(--navy); }
+.corrige-btn .arr {
+  width: 22px; height: 22px;
+  border: 1.5px solid rgba(34,211,238,.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--cyan);
+  transition: transform .3s cubic-bezier(.4,0,.2,1);
+}
+.corrige-btn.open .arr { transform: rotate(90deg); border-color: var(--cyan); }
+
+/* corrigé body — light */
+.corrige {
+  display: none;
+  background: var(--cor-bg);
+  padding: 28px;
+  border-top: 1px solid var(--cor-border);
+  animation: slideDown .22s ease;
+}
+@keyframes slideDown { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
+.corrige.vis { display: block; }
+.corrige h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 600;
+  color: var(--cor-accent); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.corrige h4::before {
+  content: ''; width: 24px; height: 2px;
+  background: linear-gradient(90deg, var(--royal), var(--sky));
+  border-radius: 2px;
+}
+.step {
+  margin-bottom: 18px; padding-left: 18px;
+  border-left: 2px solid var(--sky);
+}
+.step strong {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--cobalt); margin-bottom: 6px;
+}
+.fi {
+  background: #fff;
+  border: 1px solid rgba(14,165,233,.18);
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  margin: 7px 0; color: var(--navy);
+}
+.res {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, var(--royal), var(--cobalt));
+  color: #fff;
+  padding: 9px 18px; border-radius: 8px;
+  font-family: 'DM Mono', monospace; font-size: 13px;
+  margin-top: 8px;
+  box-shadow: 0 2px 10px rgba(14,165,233,.3);
+}
+.res::before { content: '→'; opacity: .6; font-size: 14px; }
+.ccl {
+  margin-top: 12px; padding: 14px 18px;
+  background: #fff; border-radius: 8px;
+  border: 1px solid rgba(14,165,233,.15);
+  font-size: 14px; line-height: 1.75; color: var(--t-mid);
+}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+.site-footer {
+  background: var(--dark-bg);
+  padding: 22px 40px; text-align: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(207,250,254,.18);
+  border-top: 1px solid rgba(34,211,238,.06);
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media(max-width:700px){
+  .header-inner { padding: 0 16px; }
+  .chap-btn .cn { display: none; }
+  .chap-btn .ct { font-size: 11px; }
+  .chap-btn { padding: 0 10px; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-glyph { display: none; }
+  .chapter-hero { padding: 38px 20px 34px; }
+  .content-wrap { padding: 40px 20px 60px; }
+  .snav-inner { padding: 0 16px; }
+  .cmp, .two { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="chapter-tag">Mathématiques · Première · Analyse</div>
-  <h1>Variation globale<br>& <span>Variation instantanée</span></h1>
-  <p class="subtitle">De la sécante à la tangente — comprendre la dérivée</p>
+<!-- ══ HEADER ══ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">PC</div>
+      <div class="logo-text">Physique · Chimie<span>1ère Spécialité · 2025–2026</span></div>
+    </div>
+    <nav class="chap-tabs">
+      <button class="chap-btn active" onclick="showChap('ch11',this)">
+        <span class="cn">CH·11</span>
+        <span class="ct">Interactions fondamentales</span>
+      </button>
+      <button class="chap-btn" onclick="showChap('ch15',this)">
+        <span class="cn">CH·15</span>
+        <span class="ct">Forces &amp; énergie</span>
+      </button>
+      <button class="chap-btn" onclick="showChap('chm',this)">
+        <span class="cn">CH·M</span>
+        <span class="ct">Mouvement d'un système</span>
+      </button>
+    </nav>
+  </div>
 </header>
 
-<nav>
-  <button class="active" onclick="goTo(0)">① Variation globale</button>
-  <button onclick="goTo(1)">② Variation instantanée</button>
-  <button onclick="goTo(2)">③ Passage à la limite</button>
-  <button onclick="goTo(3)">④ Comparatif interactif</button>
-</nav>
-
-<!-- ===================== SECTION 0 : VARIATION GLOBALE ===================== -->
-<div class="section active" id="s0">
-<div class="container">
-  <div class="section-title">Variation globale</div>
-  <p class="section-sub">Combien la fonction a-t-elle changé entre deux points ?</p>
-
-  <div class="concept-card orange">
-    <span class="badge badge-orange">Définition</span>
-    <h2>Taux de variation global</h2>
-    <div class="formula">
-      τ(a, b) = <strong>[ f(b) − f(a) ] / (b − a)</strong><br><br>
-      = Δf / Δx &nbsp;=&nbsp; « pente de la sécante »
-    </div>
-    <p>C'est le <strong>taux de variation moyen</strong> sur l'intervalle [a, b]. Géométriquement, c'est la pente de la droite qui relie les deux points (a, f(a)) et (b, f(b)) — la <em>sécante</em>.</p>
-  </div>
-
-  <div class="canvas-wrapper">
-    <canvas id="c0" height="320"></canvas>
-    <div class="controls">
-      <div class="ctrl-group">
-        <label>Point a</label>
-        <input type="range" id="r0a" min="-2.5" max="2" step="0.05" value="-1">
-        <span class="val-display" id="v0a">a = −1.00</span>
+<!-- ══ CHAPTER 11 ══ -->
+<div class="chapter-page active" id="ch11">
+  <div class="chapter-hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Chapitre 11 · Mouvement &amp; interactions</div>
+        <h1 class="hero-title">Interactions<br><em>fondamentales</em><br>&amp; notions de champ</h1>
+        <div class="hero-desc">
+          <span>Gravitation</span><span>Électrostatique</span>
+          <span>Lignes de champ</span><span>Champ vectoriel</span>
+        </div>
       </div>
-      <div class="ctrl-group">
-        <label>Point b</label>
-        <input type="range" id="r0b" min="-2" max="3" step="0.05" value="2">
-        <span class="val-display" id="v0b">b = 2.00</span>
-      </div>
-    </div>
-    <div class="info-row">
-      <div class="info-box">
-        <div class="label">Δf = f(b) − f(a)</div>
-        <div class="value orange" id="i0df">—</div>
-      </div>
-      <div class="info-box">
-        <div class="label">Taux de variation τ(a,b)</div>
-        <div class="value orange" id="i0tv">—</div>
-      </div>
+      <div class="hero-glyph">F⃗</div>
     </div>
   </div>
-
-  <div class="insight">
-    <h3>💡 Interprétation concrète</h3>
-    <p>Si f(t) représente la distance parcourue (en km) au temps t (en h), alors :</p>
-    <div class="big">τ(a, b) = vitesse moyenne entre t=a et t=b (km/h)</div>
-    <p>La variation globale répond à : <em>« En moyenne, à quelle vitesse évolue f ? »</em></p>
-  </div>
-
-  <div class="concept-card orange">
-    <span class="badge badge-orange">Exemple numérique</span>
-    <h2>f(x) = x²</h2>
-    <table class="math-table">
-      <thead><tr><th>a</th><th>b</th><th>f(a)</th><th>f(b)</th><th>τ(a,b)</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>3</td><td>1</td><td>9</td><td>(9−1)/(3−1) = <strong>4</strong></td></tr>
-        <tr><td>2</td><td>4</td><td>4</td><td>16</td><td>(16−4)/(4−2) = <strong>6</strong></td></tr>
-        <tr><td>0</td><td>h</td><td>0</td><td>h²</td><td>h²/h = <strong>h</strong></td></tr>
-      </tbody>
-    </table>
-    <p>La dernière ligne est clé : elle prépare le passage à la limite…</p>
-  </div>
-</div>
+  <nav class="section-nav">
+    <div class="snav-inner">
+      <a class="snav-a" href="#ch11-grav">① Gravitation</a>
+      <a class="snav-a" href="#ch11-elec">② Électrostatique</a>
+      <a class="snav-a" href="#ch11-champ">③ Notion de champ</a>
+      <a class="snav-a" href="#ch11-exo">Exercices</a>
+    </div>
+  </nav>
+  <div class="content-wrap">
+<!-- ① GRAVITATION -->
+<div class="s-head" id="ch11-grav">
+  <span class="s-num">01</span>
+  <h2>Force de gravitation &amp; champ gravitationnel</h2>
 </div>
 
-<!-- ===================== SECTION 1 : VARIATION INSTANTANÉE ===================== -->
-<div class="section" id="s1">
-<div class="container">
-  <div class="section-title">Variation instantanée</div>
-  <p class="section-sub">Que se passe-t-il quand Δx → 0 ?</p>
-
-  <div class="concept-card blue">
-    <span class="badge badge-blue">Définition</span>
-    <h2>Nombre dérivé en a</h2>
-    <div class="formula">
-      f'(a) = lim<sub>h→0</sub> <strong>[ f(a+h) − f(a) ] / h</strong><br><br>
-      = pente de la <strong>tangente</strong> en x = a
-    </div>
-    <p>Quand on fait tendre b vers a (ou h vers 0), la sécante pivote et devient la <strong>tangente</strong> à la courbe en a. Sa pente est la <em>dérivée</em> en a.</p>
-  </div>
-
-  <div class="canvas-wrapper">
-    <canvas id="c1" height="320"></canvas>
-    <div class="controls">
-      <div class="ctrl-group">
-        <label>Point a (fixe)</label>
-        <input type="range" id="r1a" min="-2" max="2.5" step="0.05" value="1">
-        <span class="val-display" id="v1a">a = 1.00</span>
-      </div>
-      <div class="ctrl-group">
-        <label>h (→ 0)</label>
-        <input type="range" id="r1h" min="0.05" max="2.5" step="0.05" value="2">
-        <span class="val-display" id="v1h">h = 2.00</span>
-      </div>
-    </div>
-    <div class="info-row">
-      <div class="info-box">
-        <div class="label">Taux global τ(a, a+h)</div>
-        <div class="value orange" id="i1tv">—</div>
-      </div>
-      <div class="info-box">
-        <div class="label">Dérivée f '(a) = 2a</div>
-        <div class="value blue" id="i1deriv">—</div>
-      </div>
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Force de gravitation</h3>
+  <p>Un corps de masse m₁ exerce sur un corps de masse m₂, situé à la distance d, une force attractive appelée <strong>force de gravitation</strong>, exprimée en newton (N).</p>
+  <div class="fml">
+    <span class="fml-tag">Loi de Newton</span>
+    <div class="eq">F⃗₁/₂  =  −  G · m₁ · m₂  /  d²  ×  û₁→₂</div>
+    <div class="vars">
+      G = 6,674 × 10⁻¹¹ N·m²·kg⁻²&nbsp;&nbsp;|&nbsp;&nbsp;m₁, m₂ : masses (kg)&nbsp;&nbsp;|&nbsp;&nbsp;d : distance (m)<br>
+      û₁→₂ : vecteur unitaire orienté du corps 1 vers le corps 2
     </div>
   </div>
-
-  <div class="insight">
-    <h3>💡 La dérivée = vitesse instantanée</h3>
-    <p>Si f(t) = distance, alors f'(t) c'est ce qu'affiche le <strong>compteur de vitesse</strong> à l'instant t — pas une moyenne, mais la vitesse <em>à cet instant précis</em>.</p>
-    <div class="big">variation instantanée ↔ dérivée ↔ pente tangente</div>
-  </div>
-
-  <div class="concept-card blue">
-    <span class="badge badge-blue">Calcul</span>
-    <h2>f(x) = x² → f'(a) = 2a</h2>
-    <ul class="steps">
-      <li>Écrire le taux de variation : [f(a+h) − f(a)] / h</li>
-      <li>Développer f(a+h) = (a+h)² = a² + 2ah + h²</li>
-      <li>Calculer la différence : a² + 2ah + h² − a² = 2ah + h²</li>
-      <li>Diviser par h : (2ah + h²)/h = 2a + h</li>
-      <li>Faire tendre h → 0 : <strong>f'(a) = 2a</strong> ✓</li>
-    </ul>
-  </div>
-</div>
+  <div class="rem"><div class="rem-icon">!</div><p>La force gravitationnelle est <strong>toujours attractive</strong>. Les deux corps s'attirent mutuellement (3ᵉ loi de Newton : F⃗₁/₂ = −F⃗₂/₁).</p></div>
 </div>
 
-<!-- ===================== SECTION 2 : PASSAGE LIMITE ===================== -->
-<div class="section" id="s2">
-<div class="container">
-  <div class="section-title">Passage à la limite</div>
-  <p class="section-sub">Voir la sécante devenir tangente, étape par étape</p>
-
-  <div class="concept-card green">
-    <span class="badge badge-green">Animation</span>
-    <h2>La sécante qui pivote</h2>
-    <p>On fixe a = 1, et on fait diminuer h : <strong>1 → 0.5 → 0.2 → 0.1 → 0.01</strong>. Observe comment la droite sécante (orange) converge vers la tangente (bleu).</p>
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Champ de gravitation</h3>
+  <p>Le champ de gravitation est un <strong>champ vectoriel</strong> créé en tout point de l'espace par la présence d'une masse m₁. Il permet d'exprimer la force subie par n'importe quel objet placé en ce point.</p>
+  <div class="fml">
+    <span class="fml-tag">Champ g⃗</span>
+    <div class="eq">g⃗  =  −  G · m₁  /  d²  ×  û₁→₂</div>
+    <div class="vars">Unité : N·kg⁻¹  (équivalent à m·s⁻²)</div>
   </div>
-
-  <div class="canvas-wrapper">
-    <canvas id="c2" height="340"></canvas>
-    <div id="limit-demo">
-      <div class="h-sequence" id="hseq"></div>
-      <button id="animate-btn" onclick="startLimitAnim()">▶ Lancer l'animation</button>
-    </div>
-    <div class="info-row">
-      <div class="info-box">
-        <div class="label">h actuel</div>
-        <div class="value green" id="i2h">—</div>
-      </div>
-      <div class="info-box">
-        <div class="label">Taux de variation → f'(1) = 2</div>
-        <div class="value green" id="i2tv">—</div>
-      </div>
-    </div>
+  <div class="fml">
+    <span class="fml-tag">Lien force–champ</span>
+    <div class="eq">F⃗₁/₂  =  m₂  ×  g⃗</div>
+    <div class="vars">La force subie = masse × champ au point considéré</div>
   </div>
-
-  <div class="concept-card green">
-    <span class="badge badge-green">Tableau de convergence</span>
-    <h2>f(x) = x², a = 1</h2>
-    <table class="math-table">
-      <thead><tr><th>h</th><th>f(1+h)</th><th>τ = [f(1+h)−f(1)]/h</th><th>Écart avec f'(1)=2</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td>4</td><td>(4−1)/1 = 3</td><td>+1</td></tr>
-        <tr><td>0.5</td><td>2.25</td><td>(2.25−1)/0.5 = 2.5</td><td>+0.5</td></tr>
-        <tr><td>0.1</td><td>1.21</td><td>(1.21−1)/0.1 = 2.1</td><td>+0.1</td></tr>
-        <tr><td>0.01</td><td>1.0201</td><td>(1.0201−1)/0.01 = 2.01</td><td>+0.01</td></tr>
-        <tr><td>0.001</td><td>1.002001</td><td>≈ 2.001</td><td>+0.001</td></tr>
-        <tr><td style="color:var(--green)"><strong>→ 0</strong></td><td>→ 1</td><td><strong>→ 2</strong></td><td><strong>→ 0</strong></td></tr>
-      </tbody>
-    </table>
-    <p style="margin-top:0.8rem">À chaque fois que h est divisé par 10, l'écart est aussi divisé par 10 → convergence parfaite vers <strong>f'(1) = 2</strong>.</p>
-  </div>
-</div>
+  <div class="rem"><div class="rem-icon">↓</div><p><strong>Lignes de champ :</strong> elles convergent vers le corps source, orientées de l'extérieur vers l'intérieur. Le champ gravitationnel pointe toujours <em>vers</em> la masse.</p></div>
 </div>
 
-<!-- ===================== SECTION 3 : INTERACTIF COMPARATIF ===================== -->
-<div class="section" id="s3">
-<div class="container">
-  <div class="section-title">Comparatif interactif</div>
-  <p class="section-sub">Sécante (variation globale) vs Tangente (variation instantanée) — sur la même courbe</p>
+<!-- ② ÉLECTROSTATIQUE -->
+<div class="s-head" id="ch11-elec">
+  <span class="s-num">02</span>
+  <h2>Force électrostatique &amp; champ électrostatique</h2>
+</div>
 
-  <div class="canvas-wrapper">
-    <canvas id="c3" height="380"></canvas>
-    <div class="controls">
-      <div class="ctrl-group">
-        <label>Point a</label>
-        <input type="range" id="r3a" min="-2" max="2" step="0.05" value="-0.5">
-        <span class="val-display" id="v3a">a = −0.50</span>
-      </div>
-      <div class="ctrl-group">
-        <label>Point b (sécante)</label>
-        <input type="range" id="r3b" min="-1.5" max="3" step="0.05" value="2">
-        <span class="val-display" id="v3b">b = 2.00</span>
-      </div>
-      <div class="ctrl-group">
-        <label>Fonction</label>
-        <select id="r3f" style="font-family:'DM Mono',monospace; padding:0.3rem; border:1px solid var(--border); border-radius:3px; background:var(--cream);">
-          <option value="x2">f(x) = x²</option>
-          <option value="x3">f(x) = x³</option>
-          <option value="sin">f(x) = sin(x)</option>
-          <option value="cubic">f(x) = x³ − 3x</option>
-          <option value="wave">f(x) = x³ − 2x² + x + 1</option>
-        </select>
-      </div>
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Force de Coulomb</h3>
+  <p>Un corps de charge q₁ exerce sur un corps de charge q₂ à la distance d une force appelée <strong>force de Coulomb</strong>. Elle est attractive si les charges sont de signes contraires, répulsive si elles sont de même signe.</p>
+  <div class="fml">
+    <span class="fml-tag">Loi de Coulomb</span>
+    <div class="eq">F⃗₁/₂  =  −  k · q₁ · q₂  /  d²  ×  û₁→₂</div>
+    <div class="vars">
+      k = 9,0 × 10⁹ N·m²·C⁻²&nbsp;&nbsp;|&nbsp;&nbsp;q₁, q₂ : charges signées (C)&nbsp;&nbsp;|&nbsp;&nbsp;d : distance (m)
     </div>
-    <div class="info-row">
-      <div class="info-box">
-        <div class="label">🟠 Sécante τ(a,b)</div>
-        <div class="value orange" id="i3sec">—</div>
+  </div>
+  <div class="cmp">
+    <div class="cmp-box">
+      <div class="cmp-title">Force attractive</div>
+      <p>Charges de signes <strong>contraires</strong> : q₁ et q₂ ont des signes opposés → les corps se rapprochent.</p>
+    </div>
+    <div class="cmp-box r">
+      <div class="cmp-title" style="color:#8b1a1a">Force répulsive</div>
+      <p>Charges de <strong>même signe</strong> : q₁ et q₂ ont le même signe → les corps s'éloignent.</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Champ électrostatique</h3>
+  <p>Le champ électrostatique créé par q₁ permet de calculer la force exercée sur toute charge q₂ placée en ce point, sans avoir à connaître q₂ au préalable.</p>
+  <div class="fml">
+    <span class="fml-tag">Champ E⃗</span>
+    <div class="eq">E⃗  =  −  k · q₁  /  d²  ×  û₁→₂</div>
+    <div class="vars">Unité : N·C⁻¹</div>
+  </div>
+  <div class="fml">
+    <span class="fml-tag">Lien force–champ</span>
+    <div class="eq">F⃗₁/₂  =  q₂  ×  E⃗</div>
+    <div class="vars">Si q₂ > 0 : F⃗ dans le sens de E⃗&nbsp;&nbsp;|&nbsp;&nbsp;Si q₂ < 0 : F⃗ en sens opposé à E⃗</div>
+  </div>
+  <div class="rem"><div class="rem-icon">→</div><p><strong>Lignes de champ :</strong> partent des charges <strong>positives</strong>, arrivent sur les charges <strong>négatives</strong>. Plus les lignes sont serrées, plus le champ est intense.</p></div>
+</div>
+
+<!-- ③ NOTION DE CHAMP -->
+<div class="s-head" id="ch11-champ">
+  <span class="s-num">03</span>
+  <h2>Notion générale de champ de force</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Qu'est-ce qu'un champ ?</h3>
+  <p>Un objet modifie les propriétés de l'espace autour de lui grâce à l'une de ses propriétés physiques (masse ou charge). Ce <strong>champ</strong> exerce des forces sur tout objet placé dans cet espace. Pour le représenter, on trace des <strong>lignes de champ</strong> : elles sont tangentes en tout point au vecteur champ et orientées dans le sens du champ.</p>
+</div>
+
+<table class="tbl">
+  <thead>
+    <tr><th>Propriété</th><th>Champ gravitationnel g⃗</th><th>Champ électrostatique E⃗</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Créé par</td><td>toute masse m</td><td>toute charge q</td></tr>
+    <tr><td>Ressenti par</td><td>toute masse</td><td>toute charge</td></tr>
+    <tr><td>Nature</td><td>Toujours attractif</td><td>Attractif ou répulsif</td></tr>
+    <tr><td>Formule force</td><td>F⃗ = m × g⃗</td><td>F⃗ = q × E⃗</td></tr>
+    <tr><td>Unité du champ</td><td>N·kg⁻¹</td><td>N·C⁻¹</td></tr>
+    <tr><td>Lignes de champ</td><td>Vers la masse source</td><td>De + vers −</td></tr>
+  </tbody>
+</table>
+
+<!-- EXERCICES -->
+<div class="exo-section" id="ch11-exo">
+  <div class="exo-section-head">Exercices d'entraînement</div>
+  <div class="exo-section-sub">Corrigé détaillé — cliquer sur le bouton vert pour afficher la solution.</div>
+
+  <!-- EXO 1 -->
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">1</div>
+      <div>
+        <div class="exo-name">L'atome d'hydrogène</div>
       </div>
-      <div class="info-box">
-        <div class="label">🔵 Tangente f'(a)</div>
-        <div class="value blue" id="i3tan">—</div>
+      <div class="exo-tag">Force électrostatique<br>&amp; gravitationnelle</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        qₑ = −1,6 × 10⁻¹⁹ C &nbsp;|&nbsp; qₚ = +1,6 × 10⁻¹⁹ C<br>
+        mₑ = 9,1 × 10⁻³¹ kg &nbsp;|&nbsp; mₚ = 1,7 × 10⁻²⁷ kg<br>
+        d = 53 pm = 53 × 10⁻¹² m &nbsp;|&nbsp; k = 9,0 × 10⁹ N·m²·C⁻² &nbsp;|&nbsp; G = 6,674 × 10⁻¹¹ N·m²·kg⁻²
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Calculer la valeur de la force électrostatique entre l'électron et le proton.</span></div>
+      <div class="q"><span class="q-n">2</span><span>Calculer la valeur de la force de gravitation entre le proton et l'électron.</span></div>
+      <div class="q"><span class="q-n">3</span><span>Comparer les deux valeurs et conclure sur l'interaction dominante dans l'atome.</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">
+      Voir le corrigé <span class="arr">▶</span>
+    </button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Force électrostatique</strong>
+        <p>On applique la loi de Coulomb avec les valeurs absolues des charges :</p>
+        <div class="fi">F = k × |qₑ| × |qₚ| / d²</div>
+        <div class="fi">F = 9,0×10⁹ × 1,6×10⁻¹⁹ × 1,6×10⁻¹⁹ / (53×10⁻¹²)²</div>
+        <div class="fi">F = 9,0×10⁹ × 2,56×10⁻³⁸ / 2,809×10⁻²¹</div>
+        <div class="res">F_élec ≈ 8,2 × 10⁻⁸ N&nbsp;&nbsp;—&nbsp;&nbsp;force attractive (charges opposées)</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Force gravitationnelle</strong>
+        <div class="fi">F = G × mₑ × mₚ / d²</div>
+        <div class="fi">F = 6,674×10⁻¹¹ × 9,1×10⁻³¹ × 1,7×10⁻²⁷ / (53×10⁻¹²)²</div>
+        <div class="res">F_grav ≈ 3,7 × 10⁻⁴⁷ N</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Comparaison &amp; conclusion</strong>
+        <div class="fi">F_élec / F_grav = 8,2×10⁻⁸ / 3,7×10⁻⁴⁷ ≈ 2,2 × 10³⁹</div>
+        <div class="ccl">La force électrostatique est environ <strong>2 × 10³⁹ fois plus grande</strong> que la force gravitationnelle. Dans l'atome, c'est l'<strong>interaction électromagnétique</strong> qui lie l'électron au noyau. La gravitation y est absolument négligeable.</div>
       </div>
     </div>
   </div>
 
-  <div class="insight">
-    <h3>À retenir absolument</h3>
-    <p><strong>Variation globale</strong> = pente de la droite entre deux points éloignés = <em>sécante</em><br>
-    <strong>Variation instantanée</strong> = pente quand les deux points se rapprochent infiniment = <em>tangente</em> = <em>dérivée</em></p>
-    <div class="big">f'(a) = lim<sub>h→0</sub> [f(a+h)−f(a)] / h</div>
-    <p>La dérivée est le <strong>taux de variation instantané</strong> — c'est ça la définition fondamentale.</p>
+  <!-- EXO 2 -->
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">2</div>
+      <div>
+        <div class="exo-name">Terre – Soleil</div>
+      </div>
+      <div class="exo-tag">Champ gravitationnel<br>&amp; force de gravitation</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        mTerre = 6,42 × 10²⁴ kg &nbsp;|&nbsp; mSoleil = 1,99 × 10³⁰ kg<br>
+        d = 150,0 × 10⁶ km = 1,50 × 10¹¹ m &nbsp;|&nbsp; G = 6,674 × 10⁻¹¹ N·m²·kg⁻²
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Calculer la valeur de la force de gravitation exercée par le Soleil sur la Terre.</span></div>
+      <div class="q"><span class="q-n">2</span><span>En déduire la valeur du champ de gravitation créé par le Soleil à la distance Terre–Soleil.</span></div>
+      <div class="q"><span class="q-n">3</span><span>Donner les caractéristiques complètes du vecteur champ gravitationnel en ce point.</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">
+      Voir le corrigé <span class="arr">▶</span>
+    </button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Force gravitationnelle</strong>
+        <div class="fi">F = G × mSoleil × mTerre / d²</div>
+        <div class="fi">F = 6,674×10⁻¹¹ × 1,99×10³⁰ × 6,42×10²⁴ / (1,50×10¹¹)²</div>
+        <div class="res">F ≈ 3,79 × 10²² N</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Champ de gravitation</strong>
+        <p>On utilise F = mTerre × g → g = F / mTerre :</p>
+        <div class="fi">g = 3,79×10²² / 6,42×10²⁴</div>
+        <div class="res">g ≈ 5,9 × 10⁻³ N·kg⁻¹</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Caractéristiques du vecteur champ</strong>
+        <div class="ccl">
+          <strong>Direction :</strong> droite Terre–Soleil.<br>
+          <strong>Sens :</strong> de la Terre vers le Soleil (attractif, vers la source).<br>
+          <strong>Norme :</strong> g ≈ 5,9 × 10⁻³ N·kg⁻¹.<br>
+          <strong>Point d'application :</strong> centre de masse de la Terre.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- fin exo-section -->
   </div>
 </div>
+
+<!-- ══ CHAPTER 15 ══ -->
+<div class="chapter-page" id="ch15">
+  <div class="chapter-hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Chapitre 15 · Énergie : conversions &amp; transferts</div>
+        <h1 class="hero-title">Forces &amp;<br><em>conservation</em><br>énergétique</h1>
+        <div class="hero-desc">
+          <span>Travail d'une force</span><span>Énergie cinétique</span>
+          <span>Énergie mécanique</span><span>TEC &amp; TEM</span>
+        </div>
+      </div>
+      <div class="hero-glyph">W</div>
+    </div>
+  </div>
+  <nav class="section-nav">
+    <div class="snav-inner">
+      <a class="snav-a" href="#ch15-travail">① Travail</a>
+      <a class="snav-a" href="#ch15-ec">② Énergie cinétique &amp; TEC</a>
+      <a class="snav-a" href="#ch15-em">③ Énergie mécanique &amp; TEM</a>
+      <a class="snav-a" href="#ch15-exo">Exercices</a>
+    </div>
+  </nav>
+  <div class="content-wrap">
+<div class="s-head" id="ch15-travail">
+  <span class="s-num">01</span>
+  <h2>Travail d'une force</h2>
 </div>
 
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Travail d'une force constante</h3>
+  <p>Le travail d'une force mesure l'énergie transférée par cette force lors du déplacement de son point d'application de A vers B. Il se note W<sub>AB</sub> et s'exprime en <strong>joule (J)</strong>.</p>
+  <div class="fml">
+    <span class="fml-tag">Produit scalaire</span>
+    <div class="eq">W_AB(F⃗)  =  F⃗ · AB⃗  =  F × AB × cos(α)</div>
+    <div class="vars">F : intensité de la force (N) &nbsp;|&nbsp; AB : déplacement (m) &nbsp;|&nbsp; α : angle entre F⃗ et AB⃗</div>
+  </div>
+  <div class="two">
+    <div class="two-box">
+      <div class="tt">Travail moteur — W &gt; 0</div>
+      <p>0 &lt; α &lt; 90° → cos α &gt; 0<br>La force contribue au mouvement.<br>Maximum : α = 0° → W = F × AB</p>
+    </div>
+    <div class="two-box b">
+      <div class="tt" style="color:#8b1a1a">Travail résistant — W &lt; 0</div>
+      <p>90° &lt; α &lt; 180° → cos α &lt; 0<br>La force s'oppose au mouvement.<br>Nul si α = 90° (force perpendiculaire)</p>
+    </div>
+  </div>
+</div>
 
+<div class="card cons">
+  <div class="card-label"><span class="dot"></span>Force conservative</div>
+  <h3>Travail du poids</h3>
+  <p>Le poids est une <strong>force conservative</strong> : son travail ne dépend que des altitudes de départ et d'arrivée, pas du chemin suivi.</p>
+  <div class="fml">
+    <span class="fml-tag">Travail du poids</span>
+    <div class="eq">W_AB(P⃗)  =  m × g × (z_A − z_B)</div>
+    <div class="vars">
+      z_A : altitude au point A (m) &nbsp;|&nbsp; z_B : altitude au point B (m)<br>
+      Descente (z_A &gt; z_B) → W &gt; 0 (moteur) &nbsp;|&nbsp; Montée → W &lt; 0 (résistant)
+    </div>
+  </div>
+  <div class="rem"><div class="ri">C</div><p>Le chemin entre A et B est <strong>sans importance</strong> pour le calcul du travail du poids : seule la différence d'altitude compte. C'est la définition d'une force conservative.</p></div>
+</div>
+
+<div class="s-head" id="ch15-ec">
+  <span class="s-num">02</span>
+  <h2>Énergie cinétique &amp; Théorème de l'énergie cinétique</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Énergie cinétique</h3>
+  <p>L'énergie cinétique est l'énergie que possède un système du fait de son mouvement. Elle est toujours positive ou nulle.</p>
+  <div class="fml">
+    <span class="fml-tag">Formule</span>
+    <div class="eq">E_c  =  ½ × m × v²</div>
+    <div class="vars">m : masse (kg) &nbsp;|&nbsp; v : vitesse (m·s⁻¹) &nbsp;|&nbsp; E_c en joule (J)</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Théorème fondamental</div>
+  <h3>Théorème de l'énergie cinétique (TEC)</h3>
+  <p>Dans un référentiel galiléen, la variation de l'énergie cinétique entre A et B est égale à la <strong>somme algébrique de tous les travaux</strong> des forces extérieures.</p>
+  <div class="fml">
+    <span class="fml-tag">TEC</span>
+    <div class="eq">ΔE_c  =  E_c(B) − E_c(A)  =  Σ W_AB(F⃗_ext)</div>
+    <div class="vars">= W(poids) + W(réaction normale) + W(frottement) + W(autres forces) + ...</div>
+  </div>
+  <div class="rem"><div class="ri">!</div><p><strong>Attention :</strong> il faut sommer <em>tous</em> les travaux, y compris ceux qui sont nuls (réaction normale perpendiculaire au déplacement → W = 0).</p></div>
+</div>
+
+<div class="s-head" id="ch15-em">
+  <span class="s-num">03</span>
+  <h2>Énergie mécanique &amp; Théorème de l'énergie mécanique</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Énergie potentielle de pesanteur</h3>
+  <p>L'énergie de position dépend de l'altitude du système. On choisit librement la référence z = 0.</p>
+  <div class="fml">
+    <span class="fml-tag">Énergie potentielle</span>
+    <div class="eq">E_p  =  m × g × z</div>
+    <div class="vars">m : masse (kg) &nbsp;|&nbsp; g ≈ 9,81 m·s⁻² &nbsp;|&nbsp; z : altitude / référence (m)</div>
+  </div>
+</div>
+
+<div class="two">
+  <div class="two-box">
+    <div class="tt">Force conservative</div>
+    <p>Le travail <strong>ne dépend pas du chemin</strong> suivi entre A et B.<br><em>Exemples : poids, force élastique.</em></p>
+  </div>
+  <div class="two-box b">
+    <div class="tt" style="color:#8b1a1a">Force non conservative</div>
+    <p>Le travail <strong>dépend du chemin</strong> suivi.<br><em>Exemples : frottement, traînée de l'air.</em></p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Énergie mécanique</h3>
+  <div class="fml">
+    <span class="fml-tag">Définition</span>
+    <div class="eq">E_m  =  E_c  +  E_p  =  ½mv²  +  mgz</div>
+    <div class="vars">Unité : joule (J)</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Théorème fondamental</div>
+  <h3>Théorème de l'énergie mécanique (TEM)</h3>
+  <p>La variation de l'énergie mécanique est égale à la somme des travaux des forces <strong>non conservatives uniquement</strong> (poids déjà inclus dans E_p).</p>
+  <div class="fml">
+    <span class="fml-tag">TEM</span>
+    <div class="eq">ΔE_m  =  E_m(B) − E_m(A)  =  Σ W_AB(F⃗_NC)</div>
+  </div>
+</div>
+
+<table class="tbl">
+  <thead><tr><th>Situation</th><th>Forces non conservatives</th><th>Énergie mécanique</th></tr></thead>
+  <tbody>
+    <tr><td>Sans frottement (idéal)</td><td>W_NC = 0</td><td><strong>Conservée</strong> : E_m(B) = E_m(A)</td></tr>
+    <tr><td>Avec frottements (réel)</td><td>W_NC &lt; 0</td><td><strong>Diminue</strong> : E_m(B) &lt; E_m(A) — amortissement</td></tr>
+  </tbody>
+</table>
+
+<div class="exo-section" id="ch15-exo">
+  <div class="exo-section-head">Exercices d'entraînement</div>
+  <div class="exo-section-sub">Corrigé détaillé — cliquer sur le bouton vert pour afficher la solution.</div>
+
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">1</div>
+      <div><div class="exo-name">Chute libre depuis un immeuble</div></div>
+      <div class="exo-tag">TEM — conservation<br>de l'énergie mécanique</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        m = 46 g = 0,046 kg &nbsp;|&nbsp; g = 9,81 m·s⁻²<br>
+        Hauteur d'un étage : h = 2,70 m &nbsp;|&nbsp; Chute depuis le sol du 12ᵉ étage, sans vitesse initiale.<br>
+        On néglige les frottements de l'air. Origine des altitudes : sol du rez-de-chaussée.
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Calculer E_c(A) et E_p(A) au départ (12ᵉ étage).</span></div>
+      <div class="q"><span class="q-n">2</span><span>Que vaut E_p lorsque la balle atteint le sol ?</span></div>
+      <div class="q"><span class="q-n">3</span><span>En utilisant le TEM, calculer la vitesse de la balle à l'impact. Donner en m·s⁻¹ et km·h⁻¹.</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">Voir le corrigé <span class="arr">▶</span></button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Situation initiale au 12ᵉ étage</strong>
+        <p>Altitude de départ : z_A = 12 × 2,70 = 32,4 m. Vitesse initiale nulle.</p>
+        <div class="fi">E_c(A) = ½ × 0,046 × 0² = 0 J</div>
+        <div class="fi">E_p(A) = 0,046 × 9,81 × 32,4 ≈ 14,6 J</div>
+        <div class="res">E_m(A) = 0 + 14,6 = 14,6 J</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Au sol (z_B = 0)</strong>
+        <div class="fi">E_p(B) = m × g × 0 = 0 J</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Vitesse à l'impact (TEM)</strong>
+        <p>Sans frottements → seul le poids travaille → force conservative → <strong>E_m se conserve</strong> :</p>
+        <div class="fi">E_m(B) = E_m(A)  →  E_c(B) = 14,6 J</div>
+        <div class="fi">½ × 0,046 × v² = 14,6  →  v² = 634,8  →  v = √634,8</div>
+        <div class="res">v ≈ 25,2 m·s⁻¹  ≈  90,7 km·h⁻¹</div>
+        <div class="ccl">Toute l'énergie potentielle initiale s'est convertie en énergie cinétique lors de la chute, conformément à la conservation de l'énergie mécanique.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">2</div>
+      <div><div class="exo-name">Le halage d'une péniche</div></div>
+      <div class="exo-tag">Travail d'une force<br>— TEC</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        T = 7 500 N &nbsp;|&nbsp; α = 30° (angle câble / direction déplacement) &nbsp;|&nbsp; d = 100 m
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Calculer le travail de la force de halage T⃗ sur 100 m.</span></div>
+      <div class="q"><span class="q-n">2</span><span>Ce travail est-il moteur ou résistant ? Justifier.</span></div>
+      <div class="q"><span class="q-n">3</span><span>Pour quel angle α le travail serait-il maximal ? Nul ?</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">Voir le corrigé <span class="arr">▶</span></button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Travail de la force de halage</strong>
+        <div class="fi">W = T × d × cos(α) = 7500 × 100 × cos(30°)</div>
+        <div class="fi">cos(30°) = √3/2 ≈ 0,866</div>
+        <div class="res">W ≈ 6,50 × 10⁵ J = 650 kJ</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Nature du travail</strong>
+        <div class="ccl">W = +650 kJ &gt; 0 → travail <strong>moteur</strong>. α = 30° est compris entre 0° et 90°, donc cos(α) &gt; 0 : la composante de la force dans le sens du déplacement contribue à faire avancer la péniche.</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Extremums</strong>
+        <div class="ccl">
+          <strong>Maximum :</strong> α = 0° → cos(0°) = 1 → W_max = 7500 × 100 = 750 000 J. Le câble est parfaitement aligné avec le déplacement.<br><br>
+          <strong>Travail nul :</strong> α = 90° → cos(90°) = 0 → W = 0. La force est perpendiculaire au déplacement.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CHAPTER MOUVEMENT ══ -->
+<div class="chapter-page" id="chm">
+  <div class="chapter-hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Chapitre · Mouvement &amp; interactions</div>
+        <h1 class="hero-title">Mouvement<br>d'un <em>système</em></h1>
+        <div class="hero-desc">
+          <span>Vecteur vitesse</span><span>Vecteur Δv⃗</span>
+          <span>Lois de Newton</span><span>Chute libre</span>
+        </div>
+      </div>
+      <div class="hero-glyph">v⃗</div>
+    </div>
+  </div>
+  <nav class="section-nav">
+    <div class="snav-inner">
+      <a class="snav-a" href="#chm-vitesse">① Vecteur vitesse</a>
+      <a class="snav-a" href="#chm-variation">② Vecteur Δv⃗</a>
+      <a class="snav-a" href="#chm-newton">③ Lois de Newton</a>
+      <a class="snav-a" href="#chm-chute">④ Chute libre</a>
+      <a class="snav-a" href="#chm-exo">Exercices</a>
+    </div>
+  </nav>
+  <div class="content-wrap">
+<div class="s-head" id="chm-vitesse">
+  <span class="s-num">01</span>
+  <h2>Vecteur vitesse instantanée</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Vecteur vitesse en Mᵢ</h3>
+  <p>Pour décrire le mouvement d'un système, on utilise le <strong>vecteur vitesse instantanée</strong>. En un point Mᵢ, il est approché par la vitesse moyenne calculée entre les deux positions voisines.</p>
+  <div class="fml">
+    <span class="fml-tag">Formule</span>
+    <div class="eq">v⃗(Mᵢ)  ≈  M̄ᵢ₋₁Mᵢ₊₁  /  2τ</div>
+    <div class="vars">
+      τ (tau) : intervalle de temps entre deux positions consécutives (s)<br>
+      Valeur scalaire : v(Mᵢ) = Mᵢ₋₁Mᵢ₊₁ / (2τ) &nbsp;&nbsp;en m·s⁻¹
+    </div>
+  </div>
+  <p style="margin-top:12px;font-size:14.5px">Le vecteur v⃗(Mᵢ) possède trois caractéristiques :</p>
+  <ul style="margin-top:8px;padding-left:20px;font-size:14.5px;line-height:2.1">
+    <li><strong>Point d'application :</strong> le point Mᵢ</li>
+    <li><strong>Direction :</strong> tangente à la trajectoire en Mᵢ</li>
+    <li><strong>Sens :</strong> celui du mouvement (de Mᵢ₋₁ vers Mᵢ₊₁)</li>
+  </ul>
+</div>
+
+<div class="schema-box">
+  <div class="schema-title">Chronophotographie — vecteur vitesse en M₂</div>
+  <svg width="540" height="120" viewBox="0 0 540 120" style="max-width:100%">
+    <defs>
+      <marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="#1a6e4a"/>
+      </marker>
+      <marker id="a2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L7,3 z" fill="#c8d8e8"/>
+      </marker>
+    </defs>
+    <path d="M 50 88 Q 170 22 290 52 Q 390 75 490 45" fill="none" stroke="#c8ddd4" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <circle cx="90" cy="78" r="6" fill="#1e3a7a"/>
+    <circle cx="190" cy="36" r="6" fill="#1e3a7a"/>
+    <circle cx="290" cy="52" r="8" fill="#1a6e4a" stroke="white" stroke-width="2"/>
+    <circle cx="390" cy="70" r="6" fill="#1e3a7a"/>
+    <circle cx="470" cy="50" r="6" fill="#1e3a7a"/>
+    <text x="76" y="100" font-size="13" fill="#1e3a7a" font-family="serif">M₀</text>
+    <text x="176" y="28" font-size="13" fill="#1e3a7a" font-family="serif">M₁</text>
+    <text x="276" y="76" font-size="13" fill="#1a6e4a" font-weight="bold" font-family="serif">M₂</text>
+    <text x="376" y="90" font-size="13" fill="#1e3a7a" font-family="serif">M₃</text>
+    <text x="458" y="44" font-size="13" fill="#1e3a7a" font-family="serif">M₄</text>
+    <line x1="190" y1="36" x2="388" y2="68" stroke="#1a6e4a" stroke-width="2.5" marker-end="url(#a1)"/>
+    <text x="268" y="20" font-size="12.5" fill="#1a6e4a" font-family="serif" font-style="italic">v⃗(M₂)</text>
+    <text x="220" y="42" font-size="10.5" fill="#666" font-family="serif" font-style="italic">tangente en M₂</text>
+  </svg>
+  <div class="schema-sub">v⃗(M₂) est dirigé de M₁ vers M₃, tangent à la courbe en M₂</div>
+</div>
+
+<div class="s-head" id="chm-variation">
+  <span class="s-num">02</span>
+  <h2>Vecteur variation de vitesse</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition</div>
+  <h3>Vecteur Δv⃗ en Mᵢ</h3>
+  <p>Le <strong>vecteur variation de vitesse</strong> mesure comment le vecteur vitesse change d'un instant à l'autre. Il indique l'effet des forces sur le mouvement.</p>
+  <div class="fml">
+    <span class="fml-tag">Formule</span>
+    <div class="eq">Δv⃗(Mᵢ)  =  v⃗(Mᵢ₊₁)  −  v⃗(Mᵢ₋₁)</div>
+    <div class="vars">En pratique, on trace : v⃗(Mᵢ₊₁) + (−v⃗(Mᵢ₋₁))</div>
+  </div>
+  <div class="rem"><div class="ri">↗</div><p><strong>Direction et sens :</strong> Δv⃗ a la même direction et le même sens que la somme des forces extérieures ΣF⃗_ext. Si Δv⃗ = 0⃗, les vecteurs vitesse successifs sont identiques : mouvement rectiligne uniforme.</p></div>
+</div>
+
+<div class="card methode">
+  <div class="card-label"><span class="dot"></span>Méthode</div>
+  <h3>Tracer Δv⃗ en Mᵢ — 3 étapes</h3>
+  <ol class="steps-list">
+    <li>Placer le vecteur <strong>v⃗(Mᵢ₊₁)</strong> avec son point d'application en Mᵢ.</li>
+    <li>Coller à son extrémité le vecteur <strong>−v⃗(Mᵢ₋₁)</strong> (même vecteur que v⃗(Mᵢ₋₁) mais en sens inverse).</li>
+    <li>Tracer la résultante <strong>Δv⃗</strong> : elle part du point d'application de v⃗(Mᵢ₊₁) et arrive à l'extrémité de −v⃗(Mᵢ₋₁).</li>
+  </ol>
+</div>
+
+<div class="s-head" id="chm-newton">
+  <span class="s-num">03</span>
+  <h2>Les lois de Newton</h2>
+</div>
+
+<div class="card loi">
+  <div class="card-label"><span class="dot"></span>Première loi</div>
+  <h3>Principe d'inertie</h3>
+  <p>Dans un référentiel galiléen, un système est en mouvement rectiligne uniforme (ou au repos) <strong>si et seulement si</strong> la somme des forces extérieures est nulle.</p>
+  <div class="fml">
+    <span class="fml-tag">Équivalence</span>
+    <div class="eq">ΣF⃗_ext = 0⃗  ⟺  Δv⃗ = 0⃗  ⟺  v⃗ = constante</div>
+  </div>
+  <div class="rem"><div class="ri">⟺</div><p>L'équivalence est <strong>dans les deux sens</strong> : si ΣF⃗ = 0⃗ alors MRU, et réciproquement si le mouvement est MRU alors ΣF⃗ = 0⃗. La réciproque est aussi vraie.</p></div>
+</div>
+
+<div class="card loi">
+  <div class="card-label"><span class="dot"></span>Deuxième loi</div>
+  <h3>Deuxième loi de Newton</h3>
+  <p>Si la somme des forces n'est pas nulle, la variation de vitesse est proportionnelle à ΣF⃗ et inversement proportionnelle à la masse (rôle de la masse = mesure de l'inertie).</p>
+  <div class="fml">
+    <span class="fml-tag">2ème loi</span>
+    <div class="eq">ΣF⃗_ext  =  m  ×  Δv⃗ / Δt  =  m  ×  Δv⃗ / (2τ)</div>
+    <div class="vars">
+      m : masse du système (kg)<br>
+      Δv⃗ : variation du vecteur vitesse (m·s⁻¹)<br>
+      Δt = 2τ : durée entre les deux positions encadrant Mᵢ (s)<br>
+      ΣF⃗_ext : somme des forces extérieures (N)
+    </div>
+  </div>
+  <div class="rem"><div class="ri">m</div><p><strong>Rôle de la masse :</strong> plus la masse est grande, plus il faut de force pour obtenir la même variation de vitesse. La masse mesure la <em>résistance au changement de mouvement</em>.</p></div>
+</div>
+
+<table class="tbl">
+  <thead><tr><th>Situation</th><th>ΣF⃗_ext</th><th>Vecteur Δv⃗</th><th>Mouvement résultant</th></tr></thead>
+  <tbody>
+    <tr><td>Système au repos</td><td>= 0⃗</td><td>= 0⃗</td><td>Reste immobile</td></tr>
+    <tr><td>Forces qui se compensent</td><td>= 0⃗</td><td>= 0⃗</td><td>MRU : vitesse constante</td></tr>
+    <tr><td>Forces non compensées</td><td>≠ 0⃗</td><td>≠ 0⃗ (même sens que ΣF⃗)</td><td>Vitesse change (direction, sens ou valeur)</td></tr>
+  </tbody>
+</table>
+
+<div class="s-head" id="chm-chute">
+  <span class="s-num">04</span>
+  <h2>Cas particulier : la chute libre</h2>
+</div>
+
+<div class="card">
+  <div class="card-label"><span class="dot"></span>Définition &amp; propriétés</div>
+  <h3>Chute libre</h3>
+  <p>Un système est en <strong>chute libre</strong> s'il est soumis uniquement à son poids P⃗. Frottements de l'air et autres forces sont négligés.</p>
+  <div class="fml">
+    <span class="fml-tag">Chute libre</span>
+    <div class="eq">ΣF⃗_ext  =  P⃗  =  m × g⃗</div>
+    <div class="eq" style="margin-top:6px">D'après la 2ème loi →  Δv⃗ / Δt  =  g⃗</div>
+    <div class="vars">
+      g⃗ : vecteur champ de pesanteur, vertical, vers le bas<br>
+      |g| = 9,81 m·s⁻²<br>
+      Δv⃗ est constant, vertical, vers le bas à chaque intervalle
+    </div>
+  </div>
+  <div class="rem"><div class="ri">↓</div><p><strong>Trajectoire :</strong> parabole si vitesse initiale horizontale, droite verticale si lâché sans vitesse initiale. Les distances entre positions <strong>augmentent</strong> au fil de la chute (vitesse croissante).</p></div>
+</div>
+
+<div class="exo-section" id="chm-exo">
+  <div class="exo-section-head">Exercices d'entraînement</div>
+  <div class="exo-section-sub">Corrigé détaillé — cliquer sur le bouton vert pour afficher la solution.</div>
+
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">1</div>
+      <div><div class="exo-name">Bille sur une surface — chronophotographie</div></div>
+      <div class="exo-tag">Vecteur vitesse<br>Principe d'inertie</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        τ = 40 ms entre chaque position. Distances mesurées en réel :<br>
+        M₀M₁ = 3,0 cm &nbsp;|&nbsp; M₁M₂ = 3,0 cm &nbsp;|&nbsp; M₂M₃ = 3,0 cm &nbsp;|&nbsp; M₃M₄ = 6,0 cm &nbsp;|&nbsp; M₄M₅ = 6,0 cm
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Calculer les valeurs de v⃗(M₁), v⃗(M₂) et v⃗(M₄).</span></div>
+      <div class="q"><span class="q-n">2</span><span>Entre M₀ et M₃, quel est le type de mouvement ? Justifier avec le principe d'inertie.</span></div>
+      <div class="q"><span class="q-n">3</span><span>Que peut-on dire de ΣF⃗_ext entre M₃ et M₅ ?</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">Voir le corrigé <span class="arr">▶</span></button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Valeurs des vecteurs vitesse</strong>
+        <p>On applique v(Mᵢ) = Mᵢ₋₁Mᵢ₊₁ / (2τ)</p>
+        <div class="fi">v(M₁) = M₀M₂ / (2τ) = (3,0 + 3,0)×10⁻² / (2×40×10⁻³) = 6,0×10⁻² / 0,080</div>
+        <div class="res">v(M₁) = 0,75 m·s⁻¹</div>
+        <div class="fi">v(M₂) = M₁M₃ / (2τ) = 6,0×10⁻² / 0,080</div>
+        <div class="res">v(M₂) = 0,75 m·s⁻¹</div>
+        <div class="fi">v(M₄) = M₃M₅ / (2τ) = (6,0 + 6,0)×10⁻² / 0,080</div>
+        <div class="res">v(M₄) = 1,50 m·s⁻¹</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Mouvement entre M₀ et M₃</strong>
+        <div class="ccl">Les distances successives sont toutes égales à 3,0 cm → les valeurs des vecteurs vitesse sont constantes (0,75 m·s⁻¹), direction rectiligne. Le mouvement est donc <strong>rectiligne uniforme (MRU)</strong>.<br><br>D'après la <strong>réciproque du principe d'inertie</strong> : si MRU → <strong>ΣF⃗_ext = 0⃗</strong>. Les forces appliquées se compensent sur cette portion.</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Entre M₃ et M₅</strong>
+        <div class="ccl">Les distances M₃M₄ = M₄M₅ = 6,0 cm ≠ 3,0 cm : la vitesse a changé donc Δv⃗ ≠ 0⃗. D'après la 2ème loi de Newton, <strong>ΣF⃗_ext ≠ 0⃗</strong>. Une force non compensée agit dans le sens du mouvement (accélération).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo">
+    <div class="exo-top">
+      <div class="exo-badge">2</div>
+      <div><div class="exo-name">Balle en chute libre</div></div>
+      <div class="exo-tag">2ème loi de Newton<br>Δv⃗ — chute libre</div>
+    </div>
+    <div class="exo-body">
+      <div class="donnees">
+        <strong>Données</strong>
+        m = 200 g = 0,200 kg &nbsp;|&nbsp; g = 9,81 m·s⁻² &nbsp;|&nbsp; τ = 0,10 s<br>
+        La balle est lâchée sans vitesse initiale. On néglige les frottements.
+      </div>
+      <div class="q"><span class="q-n">1</span><span>Faire le bilan des forces. Conclure sur ΣF⃗_ext.</span></div>
+      <div class="q"><span class="q-n">2</span><span>Donner les caractéristiques complètes de Δv⃗ à chaque instant.</span></div>
+      <div class="q"><span class="q-n">3</span><span>Calculer |ΣF⃗_ext| puis en déduire |Δv⃗| sur un intervalle 2τ.</span></div>
+      <div class="q"><span class="q-n">4</span><span>Les distances entre positions successives augmentent-elles, diminuent-elles ou sont-elles constantes ? Justifier.</span></div>
+    </div>
+    <button class="corrige-btn" onclick="tog(this)">Voir le corrigé <span class="arr">▶</span></button>
+    <div class="corrige">
+      <h4>✦ Corrigé détaillé</h4>
+      <div class="step">
+        <strong>Q1 — Bilan des forces</strong>
+        <div class="ccl">Chute libre → un seul force : le <strong>poids P⃗</strong>, vertical vers le bas. La réaction du support est absente, les frottements sont négligés.<br><strong>ΣF⃗_ext = P⃗ ≠ 0⃗</strong> → le mouvement n'est pas uniforme.</div>
+      </div>
+      <div class="step">
+        <strong>Q2 — Caractéristiques de Δv⃗</strong>
+        <div class="ccl">D'après la 2ème loi de Newton, Δv⃗ a le même sens que ΣF⃗_ext = P⃗.<br><strong>Direction :</strong> verticale.<br><strong>Sens :</strong> vers le bas.<br><strong>Valeur :</strong> constante (le poids est constant → Δv⃗ identique à chaque intervalle).</div>
+      </div>
+      <div class="step">
+        <strong>Q3 — Calcul de |ΣF⃗| et |Δv⃗|</strong>
+        <div class="fi">|ΣF⃗_ext| = P = m × g = 0,200 × 9,81</div>
+        <div class="res">P = 1,96 N</div>
+        <p style="margin-top:8px">D'après la 2ème loi : ΣF⃗ = m × Δv⃗/(2τ) → |Δv⃗| = |ΣF⃗| × 2τ / m</p>
+        <div class="fi">|Δv⃗| = 1,96 × (2 × 0,10) / 0,200 = 1,96 × 0,20 / 0,200</div>
+        <div class="res">|Δv⃗| = 1,96 m·s⁻¹ &nbsp;(= g × 2τ ✓)</div>
+      </div>
+      <div class="step">
+        <strong>Q4 — Distances entre positions successives</strong>
+        <div class="ccl">Δv⃗ ≠ 0⃗ vers le bas → la vitesse <strong>augmente</strong> à chaque intervalle. La distance Mᵢ Mᵢ₊₁ = v(Mᵢ) × τ est proportionnelle à la vitesse → les distances <strong>augmentent</strong>. Sur la chronophotographie, les points sont de plus en plus espacés.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  Physique · Chimie · 1ère Spécialité · 2025–2026 &nbsp;·&nbsp; Fiches de révision
+</footer>
 
 <script>
-// ===== FUNCTIONS =====
-const funcs = {
-  x2:    { f: x => x*x,              d: x => 2*x,         label: 'f(x) = x²' },
-  x3:    { f: x => x*x*x,            d: x => 3*x*x,       label: 'f(x) = x³' },
-  sin:   { f: x => Math.sin(x),      d: x => Math.cos(x), label: 'f(x) = sin(x)' },
-  cubic: { f: x => x*x*x - 3*x,      d: x => 3*x*x - 3,   label: 'f(x) = x³−3x' },
-  wave:  { f: x => x*x*x - 2*x*x + x + 1, d: x => 3*x*x - 4*x + 1, label: 'f(x) = x³−2x²+x+1' }
-};
-
-// ===== CANVAS — fixed size, set once per canvas id =====
-const _cvs = {};
-function getCanvas(id) {
-  if (_cvs[id]) return _cvs[id];
-  const el = document.getElementById(id);
-  const dpr = window.devicePixelRatio || 1;
-  // Always use a fixed pixel width; never re-read clientWidth after first call
-  const W = 700;
-  const H = parseInt(el.getAttribute('height'));
-  el.width  = W * dpr;
-  el.height = H * dpr;
-  el.style.width  = '100%';
-  el.style.height = H + 'px';
-  const ctx = el.getContext('2d');
-  ctx.scale(dpr, dpr);
-  _cvs[id] = { ctx, W, H };
-  return _cvs[id];
+function showChap(id, btn) {
+  document.querySelectorAll('.chapter-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.chap-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
-
-// RAF throttle
-const _raf = {};
-function sched(id, fn) {
-  if (_raf[id]) return;
-  _raf[id] = requestAnimationFrame(() => { _raf[id] = null; fn(); });
+function tog(btn) {
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('vis');
 }
-
-// ===== MATH HELPERS =====
-function w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad=40) {
-  return [
-    pad + (x - xMin) / (xMax - xMin) * (W - 2*pad),
-    H - pad - (y - yMin) / (yMax - yMin) * (H - 2*pad)
-  ];
-}
-
-function grid(ctx, W, H, xMin, xMax, yMin, yMax, pad=40) {
-  ctx.strokeStyle = '#e8e4d8'; ctx.lineWidth = 1;
-  for (let x = Math.ceil(xMin); x <= Math.floor(xMax); x++) {
-    const [sx] = w2s(x, 0, xMin, xMax, yMin, yMax, W, H, pad);
-    ctx.beginPath(); ctx.moveTo(sx, pad); ctx.lineTo(sx, H-pad); ctx.stroke();
-    ctx.fillStyle = '#aaa'; ctx.font = '11px DM Mono,monospace';
-    ctx.fillText(x, sx-4, H-pad+16);
-  }
-  for (let y = Math.ceil(yMin); y <= Math.floor(yMax); y++) {
-    const [, sy] = w2s(0, y, xMin, xMax, yMin, yMax, W, H, pad);
-    ctx.beginPath(); ctx.moveTo(pad, sy); ctx.lineTo(W-pad, sy); ctx.stroke();
-    if (y !== 0) { ctx.fillStyle='#aaa'; ctx.font='11px DM Mono,monospace'; ctx.fillText(y, pad-22, sy+4); }
-  }
-  ctx.strokeStyle = '#555'; ctx.lineWidth = 1.5;
-  const [ax0,ay0] = w2s(xMin, 0, xMin, xMax, yMin, yMax, W, H, pad);
-  const [ax1,ay1] = w2s(xMax, 0, xMin, xMax, yMin, yMax, W, H, pad);
-  ctx.beginPath(); ctx.moveTo(ax0,ay0); ctx.lineTo(ax1,ay1); ctx.stroke();
-  const [bx0,by0] = w2s(0, yMin, xMin, xMax, yMin, yMax, W, H, pad);
-  const [bx1,by1] = w2s(0, yMax, xMin, xMax, yMin, yMax, W, H, pad);
-  ctx.beginPath(); ctx.moveTo(bx0,by0); ctx.lineTo(bx1,by1); ctx.stroke();
-}
-
-function curve(ctx, fn, xMin, xMax, yMin, yMax, W, H, color='#0f0f14', pad=40) {
-  ctx.strokeStyle = color; ctx.lineWidth = 2.5;
-  ctx.beginPath(); let first = true;
-  for (let i = 0; i <= 200; i++) {
-    const x = xMin + i/200*(xMax-xMin);
-    const y = fn(x);
-    if (y < yMin-2 || y > yMax+2) { first=true; continue; }
-    const [sx,sy] = w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad);
-    first ? (ctx.moveTo(sx,sy), first=false) : ctx.lineTo(sx,sy);
-  }
-  ctx.stroke();
-}
-
-function dot(ctx, x, y, xMin, xMax, yMin, yMax, W, H, color, r=5, pad=40) {
-  const [sx,sy] = w2s(x, y, xMin, xMax, yMin, yMax, W, H, pad);
-  ctx.beginPath(); ctx.arc(sx,sy,r,0,2*Math.PI);
-  ctx.fillStyle=color; ctx.fill();
-  ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
-  return [sx,sy];
-}
-
-function line(ctx, x0, y0, x1, y1, xMin, xMax, yMin, yMax, W, H, color, lw=2, pad=40) {
-  const [sx0,sy0] = w2s(x0,y0,xMin,xMax,yMin,yMax,W,H,pad);
-  const [sx1,sy1] = w2s(x1,y1,xMin,xMax,yMin,yMax,W,H,pad);
-  ctx.strokeStyle=color; ctx.lineWidth=lw;
-  ctx.beginPath(); ctx.moveTo(sx0,sy0); ctx.lineTo(sx1,sy1); ctx.stroke();
-}
-
-// ===== NAV =====
-const sections = document.querySelectorAll('.section');
-const navBtns  = document.querySelectorAll('nav button');
-function goTo(i) {
-  sections.forEach((s,j) => s.classList.toggle('active', i===j));
-  navBtns.forEach((b,j)  => b.classList.toggle('active', i===j));
-  if (i===0) drawC0();
-  if (i===1) drawC1();
-  if (i===2) { initAnim(); drawC2(1, 2); }
-  if (i===3) drawC3();
-}
-
-// ===== S0 — VARIATION GLOBALE =====
-function drawC0() {
-  const {ctx,W,H} = getCanvas('c0');
-  const a = parseFloat(document.getElementById('r0a').value);
-  const b = parseFloat(document.getElementById('r0b').value);
-  document.getElementById('v0a').textContent = 'a = ' + a.toFixed(2);
-  document.getElementById('v0b').textContent = 'b = ' + b.toFixed(2);
-  const xMin=-3, xMax=3.5, yMin=-1, yMax=10;
-  ctx.clearRect(0,0,W,H);
-  grid(ctx,W,H,xMin,xMax,yMin,yMax);
-  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
-  if (a < b) {
-    const fa=a*a, fb=b*b;
-    const sl=(fb-fa)/(b-a);
-    line(ctx,xMin,fa+sl*(xMin-a),xMax,fa+sl*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
-    const [sxa,sya] = w2s(a,fa,xMin,xMax,yMin,yMax,W,H);
-    const [sxb,syb] = w2s(b,fb,xMin,xMax,yMin,yMax,W,H);
-    const [,sy0]    = w2s(a,0, xMin,xMax,yMin,yMax,W,H);
-    ctx.setLineDash([4,4]); ctx.strokeStyle='#ccc'; ctx.lineWidth=1;
-    ctx.beginPath(); ctx.moveTo(sxa,sya); ctx.lineTo(sxa,sy0); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(sxb,syb); ctx.lineTo(sxb,sy0); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle='#e85d26'; ctx.font='bold 12px DM Sans,sans-serif';
-    ctx.fillText('Δx',(sxa+sxb)/2-8, sy0+18);
-    ctx.fillText('Δf', sxb+6, (sya+syb)/2);
-    dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
-    dot(ctx,b,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
-    ctx.fillStyle='#e85d26'; ctx.font='13px DM Mono,monospace';
-    ctx.fillText('(a,f(a))',sxa-55,sya-8);
-    ctx.fillText('(b,f(b))',sxb+8,syb-8);
-    document.getElementById('i0df').textContent = (fb-fa).toFixed(3);
-    document.getElementById('i0tv').textContent = sl.toFixed(3);
-  }
-}
-document.getElementById('r0a').addEventListener('input', () => sched('c0', drawC0));
-document.getElementById('r0b').addEventListener('input', () => sched('c0', drawC0));
-
-// ===== S1 — VARIATION INSTANTANÉE =====
-function drawC1() {
-  const {ctx,W,H} = getCanvas('c1');
-  const a = parseFloat(document.getElementById('r1a').value);
-  const h = parseFloat(document.getElementById('r1h').value);
-  document.getElementById('v1a').textContent = 'a = ' + a.toFixed(2);
-  document.getElementById('v1h').textContent = 'h = ' + h.toFixed(2);
-  const xMin=-2.5, xMax=3.5, yMin=-0.5, yMax=9;
-  ctx.clearRect(0,0,W,H);
-  grid(ctx,W,H,xMin,xMax,yMin,yMax);
-  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
-  const fa=a*a, fb=(a+h)*(a+h);
-  const slS=(fb-fa)/h, slT=2*a;
-  line(ctx,xMin,fa+slT*(xMin-a),xMax,fa+slT*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
-  line(ctx,xMin,fa+slS*(xMin-a),xMax,fa+slS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
-  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#2563e8',6);
-  dot(ctx,a+h,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',6);
-  const [sxa,sya] = w2s(a,fa,xMin,xMax,yMin,yMax,W,H);
-  const [sxb,syb] = w2s(a+h,fb,xMin,xMax,yMin,yMax,W,H);
-  ctx.fillStyle='#e85d26'; ctx.font='12px DM Mono,monospace';
-  ctx.fillText('←h→',(sxa+sxb)/2-15, Math.min(sya,syb)-12);
-  ctx.fillStyle='#e85d26'; ctx.font='13px DM Sans,sans-serif';
-  ctx.fillText('sécante τ = '+slS.toFixed(3), 50, 25);
-  ctx.fillStyle='#2563e8';
-  ctx.fillText("tangente f'(a) = "+slT.toFixed(3), 50, 42);
-  document.getElementById('i1tv').textContent    = slS.toFixed(4);
-  document.getElementById('i1deriv').textContent = slT.toFixed(4);
-}
-document.getElementById('r1a').addEventListener('input', () => sched('c1', drawC1));
-document.getElementById('r1h').addEventListener('input', () => sched('c1', drawC1));
-
-// ===== S2 — PASSAGE À LA LIMITE =====
-const hVals = [2, 1, 0.5, 0.2, 0.1, 0.05, 0.01];
-let animIdx=0, animTimer=null;
-
-function initAnim() {
-  const seq = document.getElementById('hseq');
-  seq.innerHTML = '';
-  hVals.forEach((v,i) => {
-    const c = document.createElement('div');
-    c.className='h-chip'; c.id='chip'+i; c.textContent='h='+v;
-    seq.appendChild(c);
-  });
-  animIdx = 0;
-  drawC2(1, hVals[0]);
-}
-
-function drawC2(a, h) {
-  const {ctx,W,H} = getCanvas('c2');
-  const xMin=-1, xMax=3.5, yMin=-0.2, yMax=8;
-  ctx.clearRect(0,0,W,H);
-  grid(ctx,W,H,xMin,xMax,yMin,yMax);
-  curve(ctx, x=>x*x, xMin,xMax,yMin,yMax,W,H,'#0f0f14');
-  const fa=a*a, fb=(a+h)*(a+h);
-  const slT=2*a, slS=(fb-fa)/h;
-  ctx.setLineDash([6,4]);
-  line(ctx,xMin,fa+slT*(xMin-a),xMax,fa+slT*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
-  ctx.setLineDash([]);
-  line(ctx,xMin,fa+slS*(xMin-a),xMax,fa+slS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
-  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#0f0f14',6);
-  dot(ctx,a+h,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',5);
-  ctx.fillStyle='#e85d26'; ctx.font='bold 13px DM Sans,sans-serif';
-  ctx.fillText('sécante : τ = '+slS.toFixed(3), 50, 22);
-  ctx.fillStyle='#2563e8';
-  ctx.fillText("tangente : f'(1) = 2", 50, 40);
-  document.getElementById('i2h').textContent  = h;
-  document.getElementById('i2tv').textContent = slS.toFixed(4);
-}
-
-function startLimitAnim() {
-  if (animTimer) clearInterval(animTimer);
-  animIdx = 0;
-  hVals.forEach((_,i) => { const c=document.getElementById('chip'+i); if(c) c.className='h-chip'; });
-  animTimer = setInterval(() => {
-    if (animIdx >= hVals.length) { clearInterval(animTimer); return; }
-    hVals.forEach((_,i) => {
-      const c = document.getElementById('chip'+i); if(!c) return;
-      c.className = i < animIdx ? 'h-chip done' : i===animIdx ? 'h-chip active' : 'h-chip';
-    });
-    drawC2(1, hVals[animIdx++]);
-  }, 900);
-}
-
-// ===== S3 — COMPARATIF =====
-function drawC3() {
-  const {ctx,W,H} = getCanvas('c3');
-  const a   = parseFloat(document.getElementById('r3a').value);
-  const b   = parseFloat(document.getElementById('r3b').value);
-  const fn  = funcs[document.getElementById('r3f').value];
-  document.getElementById('v3a').textContent = 'a = ' + a.toFixed(2);
-  document.getElementById('v3b').textContent = 'b = ' + b.toFixed(2);
-  const xMin=-3, xMax=3.5, yMin=-5, yMax=12;
-  ctx.clearRect(0,0,W,H);
-  grid(ctx,W,H,xMin,xMax,yMin,yMax);
-  curve(ctx,fn.f,xMin,xMax,yMin,yMax,W,H,'#0f0f14');
-  const fa=fn.f(a), fb=fn.f(b), da=fn.d(a);
-  if (Math.abs(b-a) > 0.01) {
-    const sS=(fb-fa)/(b-a);
-    line(ctx,xMin,fa+sS*(xMin-a),xMax,fa+sS*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#e85d26',2.5);
-    dot(ctx,b,fb,xMin,xMax,yMin,yMax,W,H,'#e85d26',5);
-    document.getElementById('i3sec').textContent = sS.toFixed(4);
-  }
-  line(ctx,xMin,fa+da*(xMin-a),xMax,fa+da*(xMax-a),xMin,xMax,yMin,yMax,W,H,'#2563e8',2);
-  dot(ctx,a,fa,xMin,xMax,yMin,yMax,W,H,'#2563e8',6);
-  ctx.fillStyle='#e85d26'; ctx.font='bold 13px DM Sans,sans-serif';
-  ctx.fillText('sécante (orange)', 48, 22);
-  ctx.fillStyle='#2563e8';
-  ctx.fillText('tangente (bleu) — '+fn.label, 48, 40);
-  document.getElementById('i3tan').textContent = da.toFixed(4);
-}
-['r3a','r3b','r3f'].forEach(id => document.getElementById(id).addEventListener('input', () => sched('c3', drawC3)));
-
-// ===== INIT — draw section 0 only (others are hidden) =====
-drawC0();
-// sections 1-3 drawn on first goTo() call so clientWidth is valid
 </script>
 </body>
 </html>
